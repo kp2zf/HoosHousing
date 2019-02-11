@@ -6,7 +6,7 @@
         <a href="{% url 'listing_detail' listing.id%}">
         <h3>{{ listing.complex_name }}</h3>
         </a>
-        <p>{{ listing.price }}</p>
+        <p>Price: ${{ listing.price }}</p>
     </div>
     {%endfor%}
 </div>
