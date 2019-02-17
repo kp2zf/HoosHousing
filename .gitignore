@@ -1,0 +1,11 @@
+# Gitignore our IDE settings
+.vscode/
+.DS_Store
+
+# Popular django gitignore
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media
