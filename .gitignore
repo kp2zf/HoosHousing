@@ -1,0 +1,4 @@
+# Gitignore our IDE settings
+.vscode/
+.DS_Store
+*.pyc
