@@ -1,0 +1,17 @@
+{% block content %}
+<h1> Housing Site Homepage </h1>
+<div>
+	{% if buildings %}
+	    {%for building in buildings%}
+	    <div class="petname">
+	        <a href="{% url 'building_detail' building.id%}">
+	        <h3>{{ building.name }}</h3>
+	        </a>
+	        <p>Address: {{ building.address }}</p>
+	    </div>
+    	{%endfor%}
+	{% else %}
+		No buildings found. Want to add one?
+	{% endif %}
+</div>
+{% endblock %}
