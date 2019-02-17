@@ -1,0 +1,18 @@
+
+{% block content %}
+<div>
+    <h3>{{ listing.complex_name }}</h3>
+    <p>Price: {{ listing.price}}</p>
+    <h4>Units available:</h4>
+
+    {% for unit in listing.units.all %}
+    <ul>
+            <li>Number of Rooms: {{ unit.num_rooms }}</li>
+            <li>Square footage: {{ unit.squarefootage }}</li>
+            <li>Overall Price: {{ unit.overall_price }}</li>
+            <li>Price Per Unit: {{ unit.price_per_unit }}</li>
+    </ul>
+    {% endfor %}
+
+</div>
+{% endblock %}
