@@ -1,0 +1,19 @@
+
+{% block content %}
+<div>
+    <h3>{{ building.name }}</h3>
+    <p>Price: {{ building.price}}</p>
+    <h4>Units available:</h4>
+
+    {% for unit in building.unit_set.all %}
+    <ul>
+            <li>Number of Bedrooms: {{ unit.num_bedrooms }}</li>
+
+            <li>Square Footage: {{ unit.square_footage }}</li>
+            <li>Monthly Rent: {{ unit.monthly_rent }}</li>
+
+    </ul>
+    {% endfor %}
+
+</div>
+{% endblock %}
