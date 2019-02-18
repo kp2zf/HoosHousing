@@ -1,6 +1,7 @@
 # Gitignore our IDE settings
 .vscode/
 .DS_Store
+.idea/
 
 # Popular django gitignore
 *.log
