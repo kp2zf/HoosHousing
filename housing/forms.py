@@ -9,11 +9,12 @@ from django import forms
 
 from .models import Building
 
-class BuildingForm(forms.Form):
-	name = forms.CharField()
-	address = forms.CharField()
 
-	def save_building(self):
-		_name = self.cleaned_data['name']
-		_addr = self.cleaned_data['address']
-		Building(name=_name, address=_addr).save()
+class BuildingForm(forms.Form):
+    name = forms.CharField()
+    address = forms.CharField()
+
+    def save_building(self):
+        _name = self.cleaned_data['name']
+        _addr = self.cleaned_data['address']
+        Building(name=_name, address=_addr).save()

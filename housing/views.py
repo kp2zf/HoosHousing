@@ -7,22 +7,25 @@ from django.views import generic
 from .forms import BuildingForm
 from .models import Building
 
+
 def home(request):
     buildings = Building.objects.all()
-    return render(request,'home.html',{'buildings':buildings})
+    return render(request, 'home.html', {'buildings': buildings})
+
 
 def building_detail(request, pk=None):
-	building = get_object_or_404(Building, pk=pk)
-	return render(request,'building_detail.html',{'building':building})
+    building = get_object_or_404(Building, pk=pk)
+    return render(request, 'building_detail.html', {'building': building})
+
 
 class AddBuildingView(generic.FormView):
-	template_name = 'add_building.html'
-	form_class = BuildingForm
-	success_url = reverse_lazy('housing:add_building')
+    template_name = 'add_building.html'
+    form_class = BuildingForm
+    success_url = reverse_lazy('housing:add_building')
 
-	def form_valid(self, form):
-		# This method is called when valid form data has been POSTed.
-		# It should return an HttpResponse.
-		print('add_form form valid')
-		form.save_building()
-		return super().form_valid(form)
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        print('add_form form valid')
+        form.save_building()
+        return super().form_valid(form)

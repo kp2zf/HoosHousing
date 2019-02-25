@@ -5,4 +5,4 @@ from .models import Building
 
 @admin.register(Building)
 class BuildingAdmin(admin.ModelAdmin):
-    list_display = ['name','address']
+    list_display = ['name', 'address']
