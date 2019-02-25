@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import BuildingForm
+from .forms import BuildingForm, BuildingImageForm
 from .models import Building
 
 def home(request):
@@ -23,6 +23,14 @@ class AddBuildingView(generic.FormView):
 	def form_valid(self, form):
 		# This method is called when valid form data has been POSTed.
 		# It should return an HttpResponse.
-		print('add_form form valid')
 		form.save_building()
-		return super().form_valid(form)
+		return super().form_valid(form)	
+
+def upload_building_image(request, pk=None):
+	building = get_object_or_404(Building, pk=pk)
+	print('post', request.POST, 'files', request.FILES)
+	form = BuildingImageForm(request.POST, request.FILES)
+	if form.is_valid(): 
+		print('form is valid!', form)
+		form.save_building(building) 
+	return redirect('/') 

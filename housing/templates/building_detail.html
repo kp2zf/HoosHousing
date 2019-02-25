@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <div>
     <h3>Building Detail for {{ building.name }}</h3>
     <p> Address: {{ building.address }} </p>
     <br>
     <h5>Units available:</h5>
+
+    {% if building.image %}
+        <img src="{{ building.image.url }}" />
+    {% endif %}
 
     {% if building.unit_set.all %}
         {% for unit in building.unit_set.all %}
@@ -22,4 +28,11 @@
     {% endif %}
 
 </div>
+
+<form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image">
+    <button class="btn btn-success" type="submit">Upload Image</button>
+</form> 
+
 {% endblock %}
