@@ -13,3 +13,5 @@ __pycache__/
 db.sqlite3
 # Gitignore our static media
 media
+# Gitignore our migrations
+*/migrations/*
