@@ -20,7 +20,23 @@
     {% else %}
         <p> No units to show for {{ building.name }}.</p>
     {% endif %}
+    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
 </div>
-<a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
+<br>
+<div>
+    <h5>Reviews:</h5>
+    {% if building.review_set.all %}
+        {% for review in building.review_set.all %}
+        <ul>
+            <li> Rating: {{review.rating }}</li>
+            <li>Reviewer Name: {{review.name}}</li>
+            <li>{{review.review_text}}</li>
+        </ul>
+        {% endfor %}
+    {% else %}
+        <p> No reviews available at this time.</p>
+    {% endif %}
+    <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
+</div>
 
 {% endblock %}

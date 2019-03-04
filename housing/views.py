@@ -1,12 +1,13 @@
 from django.http import HttpResponse
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.utils import timezone
 from django.views.generic import TemplateView
 from django.shortcuts import render
 
-from .forms import BuildingForm, UnitForm
+from .forms import BuildingForm, ReviewForm, UnitForm
 from .models import Building, Unit
 
 def home(request):
@@ -44,3 +45,16 @@ class AddUnitView(TemplateView):
             form.save_unit(building)
             return render(request,'building_detail.html',{'building':building})
         return render(request, 'add_unit.html', args)
+def add_review(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	if request.method == 'POST':
+		form = ReviewForm(request.POST)
+		if form.is_valid():
+			review = form.save(commit=False)
+			review.building = building
+			review.date = timezone.now()
+			review.save()
+			return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
+	else:
+		form = ReviewForm()
+	return render(request, 'add_review.html', {'form': form})
