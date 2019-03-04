@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import django_heroku, os
+import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -147,4 +147,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Configure our app with Heroku
-django_heroku.settings(locals())
+# This is weird but following a known issue: 
+    # https://github.com/heroku/django-heroku/issues/39
+if 'HEROKU' in os.environ:
+    import django_heroku
+    django_heroku.settings(locals())
