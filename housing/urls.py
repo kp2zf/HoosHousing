@@ -1,10 +1,14 @@
 from django.urls import path
+from django.contrib import admin
+
 
 from . import views
 
 app_name = 'housing'
 
 urlpatterns = [
+    path('listing_page/',views.search,name="search"),
+    path('admin/', admin.site.urls),
 	# ex: /
 	path('', views.home, name='index'),
 	# ex: /add_building/
