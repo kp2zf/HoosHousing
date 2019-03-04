@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
   <form type="GET" action="{% url 'housing:search' %}" class="form-inline" style="margin: 0">
     <div class="form-group mb-2">
       <input  type="text" value="{{request.GET.search_box}}"name="search_box" class="form-control"  placeholder="Building Name" >
@@ -26,4 +27,28 @@
     </div>
     <button type="submit" class="btn btn-primary mb-2">Search</button>
 </form>
-  {% endblock %}
+
+
+<h3> Housing List </h3>
+	{% if user.is_authenticated %}
+		<p class="display-4">Hello, {{ user.username }}</p>
+		<!--<a href="{% url 'social:disconnect' 'google-oauth2' %}">Log Out</a><br>-->
+	{% else %}
+		<a href="{% url 'social:begin' 'google-oauth2' %}">Log In with Google</a><br>
+	{% endif %}
+<div>
+	{% if buildings %}
+	    {%for building in buildings%}
+	    <div class="petname">
+	        <a href="{% url 'housing:building_detail' building.id %}">
+	        <h3>{{ building.name }}</h3>
+	        </a>
+	        <p>Address: {{ building.address }}</p>
+	    </div>
+    	{%endfor%}
+	{% else %}
+		No buildings found. Want to <a href="{% url 'housing:add_building' %}">add one</a>?
+	{% endif %}
+</div>
+<a href="{% url 'housing:add_building'%}">add a building</a>
+{% endblock %}

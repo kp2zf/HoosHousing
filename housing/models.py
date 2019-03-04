@@ -26,3 +26,12 @@ class Unit(models.Model):
 
     def __str__(self):
         return str(self.num_bedrooms)
+
+# Each review contains the name of the reviewer, a numerical rating out of 5, the text of the review, and the building
+# for which it applies
+class Review(models.Model):
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    date = models.DateTimeField('date published')
+    rating = models.IntegerField()
+    review_text = models.TextField()
