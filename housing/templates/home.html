@@ -6,7 +6,7 @@
 		<p class="display-4">Hello, {{ user.username }}</p>
 		<!--<a href="{% url 'social:disconnect' 'google-oauth2' %}">Log Out</a><br>-->
 	{% else %}
-		<a class="lead" href="{% url 'login' %}">Log in</a>
+		<a class="lead" href="{% url 'housing:login' %}">Log in</a>
 	{% endif %}
 <div>
 	{% if buildings %}

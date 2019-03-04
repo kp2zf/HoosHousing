@@ -15,10 +15,10 @@ def building_detail(request, pk=None):
 	return render(request,'building_detail.html',{'building':building})
 
 def login(request):
-	return render(request, 'registration/login.html')
+	return render(request, 'login.html')
 
 def logout(request):
-	return render(request, 'registration/login.html')
+	return render(request, 'login.html')
 
 
 class AddBuildingView(generic.FormView):
