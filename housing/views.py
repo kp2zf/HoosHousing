@@ -4,10 +4,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
+from django.views.generic import TemplateView
+from django.shortcuts import render
 
-from .forms import BuildingForm
-from .models import Building
-from .forms import ReviewForm
+from .forms import BuildingForm, ReviewForm, UnitForm
+from .models import Building, Unit
 
 def home(request):
     buildings = Building.objects.all()
@@ -29,6 +30,21 @@ class AddBuildingView(generic.FormView):
 		form.save_building()
 		return super().form_valid(form)
 
+class AddUnitView(TemplateView):
+    template_name = 'add_unit.html'
+    success_url = reverse_lazy('housing:add_unit')
+
+    def get(self, request, pk=None):
+        form = UnitForm()
+        return render(request, 'add_unit.html', {'form': form})
+
+    def post(self, request, pk=None):
+        form = UnitForm(request.POST)
+        building = get_object_or_404(Building, pk=pk)
+        if form.is_valid():
+            form.save_unit(building)
+            return render(request,'building_detail.html',{'building':building})
+        return render(request, 'add_unit.html', args)
 def add_review(request, pk):
 	building = get_object_or_404(Building, pk=pk)
 	if request.method == 'POST':
