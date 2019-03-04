@@ -18,6 +18,14 @@ class BuildingForm(forms.Form):
 		_addr = self.cleaned_data['address']
 		Building(name=_name, address=_addr).save()
 
+class BuildingImageForm(forms.Form):
+	image = forms.ImageField()
+
+	def save_building(self, building):
+		print('saving image', self.cleaned_data['image'])
+		building.image = self.cleaned_data['image']
+		building.save()
+
 class UnitForm(forms.Form):
 	monthly_rent = forms.IntegerField()
 	square_footage = forms.IntegerField()

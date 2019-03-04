@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.db.models import Q
@@ -8,9 +8,8 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 from django.shortcuts import render
 
-from .forms import BuildingForm, ReviewForm, UnitForm
+from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
 from .models import Building, Unit
-
 
 def home(request):
     buildings = Building.objects.all()
@@ -19,8 +18,6 @@ def home(request):
 def building_detail(request, pk=None):
 	building = get_object_or_404(Building, pk=pk)
 	return render(request,'building_detail.html',{'building':building})
-
-
 
 class AddBuildingView(generic.FormView):
 	template_name = 'add_building.html'
@@ -33,6 +30,15 @@ class AddBuildingView(generic.FormView):
 		print('add_form form valid')
 		form.save_building()
 		return super().form_valid(form)
+
+def upload_building_image(request, pk=None):
+	building = get_object_or_404(Building, pk=pk)
+	print('post', request.POST, 'files', request.FILES)
+	form = BuildingImageForm(request.POST, request.FILES)
+	if form.is_valid(): 
+		print('form is valid!', form)
+		form.save_building(building) 
+	return redirect('/') 
 
 def search(request):
 	template = 'results.html'

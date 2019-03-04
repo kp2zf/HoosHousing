@@ -1,4 +1,7 @@
 from django.db import models
+
+from django.contrib.contenttypes.fields import GenericForeignKey
+
 from multiselectfield import MultiSelectField
 
 MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
@@ -10,7 +13,9 @@ MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
 class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
-    neighborhood = MultiSelectField(choices=MY_CHOICES,null=True)
+    image = models.ImageField(upload_to='images/')
+
+    neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 

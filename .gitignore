@@ -11,4 +11,10 @@ db.sqlite3
 *.pot
 *.pyc
 __pycache__/
+
+# Gitignore our database
+db.sqlite3
+# Gitignore our static media
 media
+# Gitignore our migrations
+*/migrations/*
