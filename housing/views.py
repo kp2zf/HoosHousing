@@ -3,6 +3,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.db.models import Q
 from django.utils import timezone
 from django.views.generic import TemplateView
 from django.shortcuts import render
@@ -33,6 +34,15 @@ class AddBuildingView(generic.FormView):
 		form.save_building()
 		return super().form_valid(form)
 
+def search(request):
+	template = 'results.html'
+
+	search_query=request.GET.get('search_box')
+	neighborhood_query=request.GET.get('neighborhood')
+	bedroom_query=request.GET.get('bedrooms')
+	buildings=Building.objects.filter(Q(unit__num_bedrooms__icontains=bedroom_query)&Q(neighborhood__icontains=neighborhood_query)&Q(name__icontains=search_query)).distinct()
+
+	return render(request, 'listing_page.html',{'buildings':buildings})
 class AddUnitView(TemplateView):
     template_name = 'add_unit.html'
     success_url = reverse_lazy('housing:add_unit')

@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('square_footage', models.IntegerField()),
                 ('num_bedrooms', models.IntegerField()),
                 ('available', models.BooleanField()),
-                ('building', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='housing.Building')),
+                #('building', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='housing.Building')),
             ],
         ),
     ]

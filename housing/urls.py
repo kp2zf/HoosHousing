@@ -8,6 +8,8 @@ from . import views
 app_name = 'housing'
 
 urlpatterns = [
+    path('listing_page/',views.search,name="search"),
+    path('admin/', admin.site.urls),
 	# ex: /
 	path('', home, name='index'),
 	# ex: /add_building/
