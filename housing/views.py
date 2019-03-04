@@ -10,6 +10,7 @@ from django.shortcuts import render
 from .forms import BuildingForm, ReviewForm, UnitForm
 from .models import Building, Unit
 
+
 def home(request):
     buildings = Building.objects.all()
     return render(request,'home.html',{'buildings':buildings})
@@ -17,6 +18,8 @@ def home(request):
 def building_detail(request, pk=None):
 	building = get_object_or_404(Building, pk=pk)
 	return render(request,'building_detail.html',{'building':building})
+
+
 
 class AddBuildingView(generic.FormView):
 	template_name = 'add_building.html'
