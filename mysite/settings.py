@@ -27,7 +27,7 @@ SECRET_KEY = 'af!bve^7n)mdk79_3phhb)+z$+qy0=s)$9_2m!um4w3ofa&sna'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['peaceful-river-84513.herokuapp.com']
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
