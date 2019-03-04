@@ -10,5 +10,6 @@ urlpatterns = [
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/
-    path('buildings/<int:pk>/', views.building_detail, name='building_detail')
+    path('buildings/<int:pk>/', views.building_detail, name='building_detail'),
+    path('buildings/<int:pk>/add_review/', views.add_review, name='add_review')
 ]
