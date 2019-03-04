@@ -8,15 +8,22 @@
 from django import forms
 
 from .models import Building, Review, Unit
+from multiselectfield import MultiSelectField
+
+MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
+            ('Corner','Corner'),
+            ('Rugby Road','Rugby Road'),
+            ('West Main','West Main'))
 
 class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
-
+	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
 	def save_building(self):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
-		Building(name=_name, address=_addr).save()
+		_neighborhood = self.cleaned_data['neighborhood']
+		Building(name=_name, address=_addr,neighborhood=_neighborhood).save()
 
 class BuildingImageForm(forms.Form):
 	image = forms.ImageField()
