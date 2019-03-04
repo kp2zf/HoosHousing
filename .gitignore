@@ -18,3 +18,5 @@ db.sqlite3
 media
 # Gitignore our migrations
 */migrations/*
+# Gitignore our static files
+mysite/static/
