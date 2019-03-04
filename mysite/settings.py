@@ -151,5 +151,6 @@ AUTHENTICATION_BACKENDS = (
 # Configure our app with Heroku
 # This is weird but following a known issue: 
     # https://github.com/heroku/django-heroku/issues/39
-import django_heroku
-django_heroku.settings(locals())
+if 'heroku' in os.environ['PATH']:
+    import django_heroku
+    django_heroku.settings(locals())
