@@ -22,4 +22,21 @@
     {% endif %}
 
 </div>
+
+<div>
+    <h5>Reviews:</h5>
+    {% if building.review_set.all %}
+    {% for review in building.review_set.all %}
+    <ul>
+        <li> Rating: {{review.rating }}</li>
+        <li>Reviewer Name: {{review.name}}</li>
+        <li>{{review.review_text}}</li>
+    </ul>
+{% endfor %}
+    {% else %}
+        <p> No reviews available at this time.</p>
+    {% endif %}
+</div>
+<a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
+
 {% endblock %}

@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.utils import timezone
 
 from .forms import BuildingForm
 from .models import Building
+from .forms import ReviewForm
 
 def home(request):
     buildings = Building.objects.all()
@@ -26,3 +28,17 @@ class AddBuildingView(generic.FormView):
 		print('add_form form valid')
 		form.save_building()
 		return super().form_valid(form)
+
+def add_review(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	if request.method == 'POST':
+		form = ReviewForm(request.POST)
+		if form.is_valid():
+			review = form.save(commit=False)
+			review.building = building
+			review.date = timezone.now()
+			review.save()
+			return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
+	else:
+		form = ReviewForm()
+	return render(request, 'add_review.html', {'form': form})
