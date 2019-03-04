@@ -21,6 +21,6 @@
         <p> No units to show for {{ building.name }}.</p>
     {% endif %}
 </div>
-<a href="{% url 'housing:add_unit'%}">add a unit</a>
+<a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
 
 {% endblock %}

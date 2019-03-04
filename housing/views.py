@@ -31,31 +31,16 @@ class AddBuildingView(generic.FormView):
 
 class AddUnitView(TemplateView):
     template_name = 'add_unit.html'
-    # form_class = UnitForm
     success_url = reverse_lazy('housing:add_unit')
 
-    # def form_valid(self, form):
-    #     print('add_form form valid')
-    #     form.save_unit()
-    #     return super().form_valid(form)
-
-    def get(self, request):
+    def get(self, request, pk=None):
         form = UnitForm()
-        # building = get_object_or_404(Building)
-        buildings = Building.objects.all()
-        args = {'form': form, 'building': buildings}
         return render(request, 'add_unit.html', {'form': form})
 
-    def post(self, request):
+    def post(self, request, pk=None):
         form = UnitForm(request.POST)
+        building = get_object_or_404(Building, pk=pk)
         if form.is_valid():
-            unit.building = request.building
-            monthly_rent = form.cleaned_data['monthly_rent']
-            square_footage = form.cleaned_data['square_footage']
-            num_bedrooms = form.cleaned_data['num_bedrooms']
-            available = form.cleaned_data['available']
-            Unit(monthly_rent=monthly_rent, square_footage=square_footage, num_bedrooms=num_bedrooms, available=available).save()
-
-
-        args = {'form': form, 'monthly_rent': monthly_rent, 'square_footage': square_footage, 'num_bedrooms': num_bedrooms, 'available': available}
+            form.save_unit(building)
+            return render(request,'building_detail.html',{'building':building})
         return render(request, 'add_unit.html', args)

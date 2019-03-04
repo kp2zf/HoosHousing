@@ -11,6 +11,6 @@ urlpatterns = [
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/
     path('buildings/<int:pk>/', views.building_detail, name='building_detail'),
-
-	path('buildings/add_unit', views.AddUnitView.as_view(), name='add_unit')
+    # ex: /buildings/add_unit/3/
+	path('buildings/add_unit/<int:pk>/', views.AddUnitView.as_view(), name='add_unit')
 ]
