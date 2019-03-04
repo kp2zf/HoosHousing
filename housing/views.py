@@ -14,11 +14,6 @@ def building_detail(request, pk=None):
 	building = get_object_or_404(Building, pk=pk)
 	return render(request,'building_detail.html',{'building':building})
 
-def login(request):
-	return render(request, 'login.html')
-
-def logout(request):
-	return render(request, 'login.html')
 
 
 class AddBuildingView(generic.FormView):

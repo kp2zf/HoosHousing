@@ -15,8 +15,6 @@ urlpatterns = [
     # ex: /buildings/3/
     path('buildings/<int:pk>/', views.building_detail, name='building_detail'),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
     url(r'^auth/', include('social_django.urls', namespace='social')),  # <- Here
     url(r'^$', home, name='home'),
 ]
