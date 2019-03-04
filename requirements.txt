@@ -3,4 +3,5 @@ django-crispy-forms
 django-heroku
 django-multiselectfield
 gunicorn
+Pillow
 social-auth-app-django

@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
+import django_heroku, os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,8 +26,6 @@ SECRET_KEY = 'af!bve^7n)mdk79_3phhb)+z$+qy0=s)$9_2m!um4w3ofa&sna'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['peaceful-river-84513.herokuapp.com']
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -147,3 +145,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',  # for Google authentication
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# Configure our app with Heroku
+django_heroku.settings(locals())
