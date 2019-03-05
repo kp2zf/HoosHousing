@@ -8,15 +8,12 @@
     <title>Housing Site</title>
   </head>
   <body>
+    {% include 'navbar.html' %}
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-8">
-          <h1 class="mt-2">Find Housing Away from Grounds! (name pending)</h1>
-          <hr class="mt-0 mb-4">
+        <div class="col-10" style="margin-top: 20px">
           {% block content %}
           {% endblock %}
-          <br>
-          <a href="/">go home</a>
         </div>
       </div>
     </div>
