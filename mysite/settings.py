@@ -27,7 +27,8 @@ SECRET_KEY = 'af!bve^7n)mdk79_3phhb)+z$+qy0=s)$9_2m!um4w3ofa&sna'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['peaceful-river-84513.herokuapp.com',
+                 '127.0.0.1']
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -149,7 +150,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Configure our app with Heroku
-# This is weird but following a known issue: 
+# This is weird but following a known issue:
     # https://github.com/heroku/django-heroku/issues/39
-import django_heroku
-django_heroku.settings(locals())
+if 'heroku' in os.environ['PATH']:
+    import django_heroku
+    django_heroku.settings(locals())
