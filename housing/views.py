@@ -50,7 +50,7 @@ def search(request):
 	bedroom_query = request.GET.get('bedrooms')
 	buildings = Building.objects.filter(Q(unit__num_bedrooms__icontains=bedroom_query)&Q(neighborhood__icontains=neighborhood_query)&Q(name__icontains=search_query)).distinct()
 	print('got buildings:', buildings)
-	return render(request, 'search.html',{'buildings':buildings, 'isQueryResult': True})
+	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
     template_name = 'add_unit.html'
@@ -65,7 +65,7 @@ class AddUnitView(TemplateView):
         building = get_object_or_404(Building, pk=pk)
         if form.is_valid():
             form.save_unit(building)
-            return render(request,'building_detail.html',{'building':building})
+            return render(request,'building_detail.html',{'building':building })
         return render(request, 'add_unit.html', args)
 
 def add_review(request, pk):
