@@ -28,7 +28,7 @@ SECRET_KEY = 'af!bve^7n)mdk79_3phhb)+z$+qy0=s)$9_2m!um4w3ofa&sna'
 DEBUG = True
 
 ALLOWED_HOSTS = ['peaceful-river-84513.herokuapp.com',
-                 '127.0.0.1']
+                 '127.0.0.1', 'localhost']
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -153,5 +153,14 @@ AUTHENTICATION_BACKENDS = (
 # This is weird but following a known issue:
     # https://github.com/heroku/django-heroku/issues/39
 if 'heroku' in os.environ['PATH']:
+    # Enable settings for Heroku
     import django_heroku
     django_heroku.settings(locals())
+    # Authenticate with Google Cloud
+    from google.oauth2 import service_account
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        "credentials.json"
+    )
+    # Use Google Cloud Storage for file store
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'hooshousing'
