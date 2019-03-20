@@ -43,7 +43,7 @@ class BuildingDetailViewTests(TestCase):
 		self.assertContains(response, building.name)
 		self.assertContains(response, building.address)
 		self.assertContains(response, 'No units to show')
-	
+
 	def test_building_detail_view_with_unit(self):
 		"""
 		The detail view of a question with a pub_date in the future
@@ -58,21 +58,22 @@ class BuildingDetailViewTests(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, building.name)
 		self.assertContains(response, building.address)
+		self.assertContains(response, "maps.google.com/maps")
 		self.assertNotContains(response, 'No units to show')
 
 ''' Helper methods for tests. '''
 
 def create_building():
 	return Building(
-		name='Grandmarc', 
+		name='Grandmarc',
 		address='301 15th St NW, Charlottesville, VA 22903'
 	)
 
 def create_unit(building):
 	return Unit(
-		building = building, 
-		monthly_rent = 850, 
-		square_footage = 800, 
-		num_bedrooms = 3, 
+		building = building,
+		monthly_rent = 850,
+		square_footage = 800,
+		num_bedrooms = 3,
 		available = True,
 	)
