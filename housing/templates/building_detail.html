@@ -4,53 +4,57 @@
 
 {% block content %}
 <div>
-    <h3>Building Detail for {{ building.name }}</h3>
-    <p> Address: {{ building.address }} </p>
-    <br>
-    <h5>Units available:</h5>
+  <h3>Building Detail for {{ building.name }}</h3>
+  <p> Address: {{ building.address }} </p>
+  <br>
+  <h5>Units available:</h5>
 
-    {% if building.image %}
-        <img src="{{ building.image.url }}" />
-    {% endif %}
+  {% if building.image %}
+  <img src="{{ building.image.url }}" />
+  {% endif %}
 
-    {% if building.unit_set.all %}
-        {% for unit in building.unit_set.all %}
-        <ul>
-                <li>Number of Bedrooms: {{ unit.num_bedrooms }}</li>
+  {% if building.unit_set.all %}
+  {% for unit in building.unit_set.all %}
+  <ul>
+    <li>Number of Bedrooms: {{ unit.num_bedrooms }}</li>
 
-                <li>Square Footage: {{ unit.square_footage }}</li>
-                <li>Monthly Rent: {{ unit.monthly_rent }}</li>
+    <li>Square Footage: {{ unit.square_footage }}</li>
+    <li>Monthly Rent: {{ unit.monthly_rent }}</li>
 
-        </ul>
-        {% endfor %}
-    {% else %}
-        <p> No units to show for {{ building.name }}.</p>
-    {% endif %}
-    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
+  </ul>
+  {% endfor %}
+  {% else %}
+  <p> No units to show for {{ building.name }}.</p>
+  {% endif %}
+  <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
 </div>
 
 <form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="image">
-    <button class="btn btn-success" type="submit">Upload Image</button>
-</form> 
+  {% csrf_token %}
+  <input type="file" name="image">
+  <button class="btn btn-success" type="submit">Upload Image</button>
+</form>
 
 <br>
 
 <div>
-    <h5>Reviews:</h5>
-    {% if building.review_set.all %}
-        {% for review in building.review_set.all %}
-        <ul>
-            <li> Rating: {{review.rating }}</li>
-            <li>Reviewer Name: {{review.name}}</li>
-            <li>{{review.review_text}}</li>
-        </ul>
-        {% endfor %}
-    {% else %}
-        <p> No reviews available at this time.</p>
-    {% endif %}
-    <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
+  <h5>Reviews:</h5>
+  {% if building.review_set.all %}
+  {% for review in building.review_set.all %}
+  <ul>
+    <li> Rating: {{review.rating }}</li>
+    <li>Reviewer Name: {{review.name}}</li>
+    <li>{{review.review_text}}</li>
+  </ul>
+  {% endfor %}
+  {% else %}
+  <p> No reviews available at this time.</p>
+  {% endif %}
+  <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
 </div>
+
+<br>
+
+{% include 'map.html' with address=building.address %}
 
 {% endblock %}
