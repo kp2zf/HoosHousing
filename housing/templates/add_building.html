@@ -11,6 +11,8 @@
 <form method="post">
 	{% csrf_token %}
     {{ form|crispy }}
+		{% include 'address.html' %}
+		<br>
     <input type="submit" class="btn btn-success" value="Submit a building">
 </form>
 
