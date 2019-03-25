@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth import views
 from .views import home
 from . import views
-
+from django.contrib.auth import logout
 app_name = 'housing'
 
 urlpatterns = [
@@ -31,6 +31,8 @@ urlpatterns = [
     path('buildings/<int:pk>/<slug:name>/<slug:sorting>/vote/', views.helpful_vote, name='helpful_vote'),
     # sorted review path
     path('buildings/<int:pk>/<slug:sorting>/', views.building_detail, name='building_detail'),
+    path('myaccount/', views.myaccount, name='myaccount'),
+    path('logout/', views.my_logout, name="logout"),
 ]
 
 

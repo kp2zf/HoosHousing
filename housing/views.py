@@ -6,7 +6,7 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
-
+from django.contrib.auth import logout
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
 from .models import Building, Unit, Review
 
@@ -64,7 +64,7 @@ class AddUnitView(TemplateView):
     def post(self, request, pk=None):
         unit_form = UnitForm(request.POST)
         building = get_object_or_404(Building, pk=pk)
-        if form.is_valid():
+        if unit_form.is_valid():
             unit_form.save(building)
             return render(request,'building_detail.html',{'building':building })
         return render(request, 'add_unit.html', args)
@@ -87,3 +87,10 @@ def helpful_vote(request, pk, name, sorting= '-date'): #eventually change name t
 	review.helpful_score += 1
 	review.save()
 	return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
+
+def myaccount(request):
+	return render(request,'myaccount.html')
+
+def my_logout(request):
+    logout(request)
+    return redirect(reverse('housing:index'))
