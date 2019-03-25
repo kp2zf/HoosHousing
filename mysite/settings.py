@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['peaceful-river-84513.herokuapp.com',
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
-
+LOGOUT_REDIRECT_URL = '/'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '445967388965-hl5h0t8o0ma9var25qd2r3h4scd92il2.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Dw-ZS2n3wWrQPcuBfbk0tv1v'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
