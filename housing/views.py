@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 from django.shortcuts import render
 
-from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
+from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit
 
 def home(request):
@@ -77,3 +77,20 @@ def add_review(request, pk):
 	else:
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
+
+
+def update_building(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	print("called")
+	print('post', request.POST)
+	if request.method == 'POST':
+		form=UpdateForm(request.POST)
+		print("form1",form)
+		if form.is_valid():
+			print("form",form)
+			building.address=form.cleaned_data['address']
+			building.save()
+	else:
+		form=UpdateForm()
+		print("else")
+	return render(request,'building_detail.html',{'building':building})

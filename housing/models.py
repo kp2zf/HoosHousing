@@ -13,9 +13,11 @@ MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
 class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/',null=True, blank=True)
 
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
+    approved = models.BooleanField(null=True, blank=True)
+    admin = models.CharField(max_length=100,null=True, blank=True)
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 
@@ -23,7 +25,7 @@ class Building(models.Model):
 # The monthly rent of a Unit represents the total rent in US Dollars 
 # for one month.
 class Unit(models.Model):
-    building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    building = models.ForeignKey(Building, on_delete=models.CASCADE, null=True, blank=True)
     monthly_rent = models.IntegerField()
     square_footage = models.IntegerField()
     num_bedrooms = models.IntegerField()
@@ -40,3 +42,5 @@ class Review(models.Model):
     date = models.DateTimeField('date published')
     rating = models.IntegerField()
     review_text = models.TextField()
+
+

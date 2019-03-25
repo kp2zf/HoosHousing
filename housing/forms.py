@@ -19,11 +19,16 @@ class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
 	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
+	admin=forms.CharField()
+	is_approved = forms.BooleanField()
+
 	def save_building(self):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
 		_neighborhood = self.cleaned_data['neighborhood']
-		Building(name=_name, address=_addr,neighborhood=_neighborhood).save()
+		_admin = self.cleaned_data['admin']
+		is_approved=False
+		Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood).save()
 
 class BuildingImageForm(forms.Form):
 	image = forms.ImageField()
@@ -67,3 +72,6 @@ class ReviewForm(forms.ModelForm):
 	# 	_name = self.cleaned_data['name']
 	# 	_text = self.cleaned_data['review_text']
 	# 	_rating = self.cleaned_data['rating']
+
+class UpdateForm(forms.Form):
+	address=forms.CharField(max_length=100)
