@@ -6,9 +6,9 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
-
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
 from .models import Building, Unit
+from django.contrib.auth import logout
 
 def home(request):
     buildings = Building.objects.all()
@@ -77,3 +77,10 @@ def add_review(request, pk):
 	else:
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
+
+def myaccount(request):
+	return render(request,'myaccount.html')
+
+def my_logout(request):
+    logout(request)
+    return redirect(reverse('housing:index'))
