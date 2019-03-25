@@ -62,7 +62,7 @@ class AddUnitView(TemplateView):
     def post(self, request, pk=None):
         unit_form = UnitForm(request.POST)
         building = get_object_or_404(Building, pk=pk)
-        if form.is_valid():
+        if unit_form.is_valid():
             unit_form.save(building)
             return render(request,'building_detail.html',{'building':building })
         return render(request, 'add_unit.html', args)
