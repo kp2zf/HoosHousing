@@ -27,6 +27,10 @@ urlpatterns = [
     path('buildings/add_unit/<int:pk>/', views.AddUnitView.as_view(), name='add_unit'),
     # ex: /buildings/3/add_review/
     path('buildings/<int:pk>/add_review/', views.add_review, name='add_review'),
+    # upvote review path
+    path('buildings/<int:pk>/<slug:name>/<slug:sorting>/vote/', views.helpful_vote, name='helpful_vote'),
+    # sorted review path
+    path('buildings/<int:pk>/<slug:sorting>/', views.building_detail, name='building_detail'),
 ]
 
 

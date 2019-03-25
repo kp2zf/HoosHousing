@@ -183,3 +183,12 @@ def create_review(building):
 		rating = 2,
 		review_text = 'This building is fine'
 	)
+
+def create_high_review(building):
+	return Review(
+		building = building,
+		name = 'Asa',
+		date = timezone.now(),
+		rating = 5,
+		review_text = 'This building is fire'
+	)

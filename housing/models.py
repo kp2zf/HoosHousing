@@ -51,5 +51,6 @@ class Review(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     date = models.DateTimeField('date published')
-    rating = models.IntegerField(validators = [validate_review_rating])
+    rating = models.IntegerField(validators = [validate_review_rating]) #the user's rating (out of 5 stars) of the apartment
+    helpful_score = models.IntegerField(default=0) #amount of users that found this review helpful
     review_text = models.TextField()
