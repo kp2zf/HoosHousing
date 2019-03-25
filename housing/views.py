@@ -8,6 +8,7 @@ from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
 from .models import Building, Unit
+from django.contrib.auth import logout
 
 def home(request):
     buildings = Building.objects.all()
@@ -79,3 +80,7 @@ def add_review(request, pk):
 
 def myaccount(request):
 	return render(request,'myaccount.html')
+
+def my_logout(request):
+    logout(request)
+    return redirect(reverse('housing:index'))

@@ -28,7 +28,7 @@ urlpatterns = [
     # ex: /buildings/3/add_review/
     path('buildings/<int:pk>/add_review/', views.add_review, name='add_review'),
     path('myaccount/', views.myaccount, name='myaccount'),
-    url('', logout,{'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout')
+    path('logout/', views.my_logout, name="logout"),
 ]
 
 
