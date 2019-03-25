@@ -20,3 +20,4 @@ media
 */migrations/*
 # Gitignore our static files
 mysite/static/
+staticfiles/

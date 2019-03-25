@@ -10,10 +10,13 @@ from . import views
 app_name = 'housing'
 
 urlpatterns = [
-    path('listing_page/',views.search,name="search"),
     path('admin/', admin.site.urls),
 	# ex: /
 	path('', home, name='index'),
+    # ex: /search/
+    path('search/', views.SearchView.as_view(), name='search'),
+    # ex: /search_form/
+    path('search_form/', views.search, name='search_form'),
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/

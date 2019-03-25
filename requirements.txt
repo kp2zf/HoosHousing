@@ -2,6 +2,7 @@ Django==2.1.5
 django-crispy-forms
 django-heroku
 django-multiselectfield
+django-storages[google]
 gunicorn
 Pillow
 social-auth-app-django
