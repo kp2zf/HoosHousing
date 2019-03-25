@@ -6,7 +6,8 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
-from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
+
+from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit
 from django.contrib.auth import logout
 
@@ -78,6 +79,22 @@ def add_review(request, pk):
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
 
+
+def update_building(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	print("called")
+	print('post', request.POST)
+	if request.method == 'POST':
+		form=UpdateForm(request.POST)
+		print("form1",form)
+		if form.is_valid():
+			print("form",form)
+			building.address=form.cleaned_data['address']
+			building.save()
+	else:
+		form=UpdateForm()
+		print("else")
+	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 def myaccount(request):
 	return render(request,'myaccount.html')
 

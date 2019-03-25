@@ -28,13 +28,13 @@
   {% endif %}
   <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
 </div>
-
+{% if user.username == building.admin %}
 <form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="file" name="image">
-  <button class="btn btn-success" type="submit">Upload Image</button>
-</form>
-
+    {% csrf_token %}
+    <input type="file" name="image">
+    <button class="btn btn-success" type="submit">Upload Image</button>
+</form> 
+{% endif %}
 <br>
 
 <div>
@@ -52,6 +52,15 @@
   {% endif %}
   <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
 </div>
+
+{% if user.username == building.admin %}
+<form method="post" action={% url 'housing:update_building' pk=building.id%} >
+        {% csrf_token %}
+      <input type="text" class="form-control" id="address" placeholder="New Address" name="address" value="{{request.GET.address}}">
+
+<button class="btn btn-primary" type="submit" >Submit Changes</button>
+</form>
+{% endif %}
 
 <br>
 
