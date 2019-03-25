@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -6,8 +7,8 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
-from django.contrib.auth import logout
-from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
+
+from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit, Review
 
 def home(request):
@@ -87,6 +88,22 @@ def helpful_vote(request, pk, name, sorting= '-date'): #eventually change name t
 	review.helpful_score += 1
 	review.save()
 	return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
+
+def update_building(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	print("called")
+	print('post', request.POST)
+	if request.method == 'POST':
+		form=UpdateForm(request.POST)
+		print("form1",form)
+		if form.is_valid():
+			print("form",form)
+			building.address=form.cleaned_data['address']
+			building.save()
+	else:
+		form=UpdateForm()
+		print("else")
+	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 
 def myaccount(request):
 	return render(request,'myaccount.html')
