@@ -9,6 +9,7 @@ from django.shortcuts import render
 
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit
+from django.contrib.auth import logout
 
 def home(request):
     buildings = Building.objects.all()
@@ -94,3 +95,9 @@ def update_building(request, pk):
 		form=UpdateForm()
 		print("else")
 	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
+def myaccount(request):
+	return render(request,'myaccount.html')
+
+def my_logout(request):
+    logout(request)
+    return redirect(reverse('housing:index'))
