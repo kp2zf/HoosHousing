@@ -21,7 +21,7 @@ class BuildingForm(forms.Form):
 	address = forms.CharField()
 	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
 	admin=forms.CharField()
-	is_approved = forms.BooleanField()
+	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
 
 	def save(self):
 		_name = self.cleaned_data['name']

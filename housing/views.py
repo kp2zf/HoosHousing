@@ -93,4 +93,4 @@ def update_building(request, pk):
 	else:
 		form=UpdateForm()
 		print("else")
-	return render(request,'building_detail.html',{'building':building})
+	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
