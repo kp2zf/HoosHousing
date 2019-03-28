@@ -47,11 +47,11 @@ class SearchView(TemplateView):
 
 def search(request):
 	template = 'results.html'
+	
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
 	buildings = Building.objects.filter(Q(unit__num_bedrooms__icontains=bedroom_query)&Q(neighborhood__icontains=neighborhood_query)&Q(name__icontains=search_query)).distinct()
-	print('got buildings:', buildings)
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
@@ -91,18 +91,13 @@ def helpful_vote(request, pk, name, sorting= '-date'): #eventually change name t
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
-	print("called")
-	print('post', request.POST)
 	if request.method == 'POST':
 		form=UpdateForm(request.POST)
-		print("form1",form)
 		if form.is_valid():
-			print("form",form)
 			building.address=form.cleaned_data['address']
 			building.save()
 	else:
 		form=UpdateForm()
-		print("else")
 	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 
 def myaccount(request):
