@@ -25,12 +25,11 @@ class AddBuildingView(FormView):
 	template_name = 'add_building.html'
 	form_class = BuildingForm
 	success_url = reverse_lazy('housing:add_building')
-
 	def form_valid(self, form):
 		# This method is called when valid form data has been POSTed.
 		# It should return an HttpResponse.
 		print('add_form form valid')
-		form.save()
+		form.save(admin=self.request.user.username)
 		return super().form_valid(form)
 
 def upload_building_image(request, pk=None):

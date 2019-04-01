@@ -27,7 +27,8 @@ class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
-
+    #pet_allowed= models.BooleanField()
+    #is_furnished=models.BooleanField()
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
