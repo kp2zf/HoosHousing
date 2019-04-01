@@ -4,9 +4,9 @@
 
 {% block content %}
 <div>
-  <h3>Building Detail for {{ building.name }}</h3>
-  <p> Address: {{ building.address }} </p>
-  <br>
+  <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
+  <h5> {{ building.address }} </h5>
+  <hr>
   <h5>Units available:</h5>
 
   {% if building.image %}
@@ -14,15 +14,26 @@
   {% endif %}
 
   {% if building.unit_set.all %}
-  {% for unit in building.unit_set.all %}
-  <ul>
-    <li>Number of Bedrooms: {{ unit.num_bedrooms }}</li>
-
-    <li>Square Footage: {{ unit.square_footage }}</li>
-    <li>Monthly Rent: {{ unit.monthly_rent }}</li>
-
-  </ul>
-  {% endfor %}
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Number of Bedrooms</th>
+      <th scope="col">Square Footage</th>
+      <th scope="col">Monthly Rent</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for unit in building.unit_set.all %}
+    <tr>
+      <th scope="row">#</th>
+      <td>{{ unit.num_bedrooms }}</td>
+      <td>{{ unit.square_footage }}</td>
+      <td>{{ unit.monthly_rent }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
   {% else %}
   <p> No units to show for {{ building.name }}.</p>
   {% endif %}
@@ -33,7 +44,7 @@
     {% csrf_token %}
     <input type="file" name="image">
     <button class="btn btn-success" type="submit">Upload Image</button>
-</form> 
+</form>
 {% endif %}
 <br>
 
