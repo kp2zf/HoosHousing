@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.contrib.auth import logout
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
@@ -8,16 +9,17 @@ from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
 
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
-from .models import Building, Unit
-from django.contrib.auth import logout
+from .models import Building, Unit, Review
 
 def home(request):
     buildings = Building.objects.all()
     return render(request,'home.html',{'buildings':buildings})
 
-def building_detail(request, pk=None):
+def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
-	return render(request,'building_detail.html',{'building':building})
+	reviews = building.review_set.all()
+	reviews = reviews.order_by(sorting)
+	return render(request,'building_detail.html',{'building':building, 'reviews':reviews, 'sorting':sorting})
 
 class AddBuildingView(FormView):
 	template_name = 'add_building.html'
@@ -79,6 +81,13 @@ def add_review(request, pk):
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
 
+def helpful_vote(request, pk, name, sorting= '-date'): #eventually change name to userid
+	#need to add sorting so page refreshes to same sorting option that was selected before
+	building = get_object_or_404(Building, pk=pk)
+	review = Review.objects.get(building=building, name=name)
+	review.helpful_score += 1
+	review.save()
+	return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
@@ -95,6 +104,7 @@ def update_building(request, pk):
 		form=UpdateForm()
 		print("else")
 	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
+
 def myaccount(request):
 	return render(request,'myaccount.html')
 

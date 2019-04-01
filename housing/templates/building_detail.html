@@ -40,11 +40,24 @@
 <div>
   <h5>Reviews:</h5>
   {% if building.review_set.all %}
-  {% for review in building.review_set.all %}
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="reviewSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by
+  </button>
+  <div class="dropdown-menu" aria-labelledby="reviewSort">
+    <a class="dropdown-item" href="/buildings/{{ building.id }}/-date">Most recent first</a>
+    <a class="dropdown-item" href="/buildings/{{ building.id }}/-helpful_score">Most helpful first</a>
+    <a class="dropdown-item" href="/buildings/{{ building.id }}/-rating">Highest rating first</a>
+    <a class="dropdown-item" href="/buildings/{{ building.id }}/rating">Lowest rating first</a>
+  </div>
+  </div>
+  {% for review in reviews %}
   <ul>
     <li> Rating: {{review.rating }}</li>
     <li>Reviewer Name: {{review.name}}</li>
     <li>{{review.review_text}}</li>
+    <li>{{review.helpful_score}} users found this review helpful.</li>
+    <li><a href="{% url 'housing:helpful_vote' pk=building.id name=review.name sorting=sorting%}">I found this helpful</a></li>
   </ul>
   {% endfor %}
   {% else %}
