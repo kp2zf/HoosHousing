@@ -33,12 +33,14 @@
     {% if buildings %}
 
     {% for building in buildings %}
+    {%if building.approved%}
     <div>
         <a href="{% url 'housing:building_detail' building.id %}">
         <h3>{{ building.name }}</h3>
         </a>
         <p>Address: {{ building.address }}</p>
     </div>
+    {%endif%}
     {% endfor %}
 
     {% else %}
