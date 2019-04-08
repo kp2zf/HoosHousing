@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
-from .models import Building, Unit
+from .models import Building, Unit, Review
 from django.contrib.auth import logout
 
 def home(request):
@@ -79,6 +79,9 @@ def add_review(request, pk):
 	return render(request, 'add_review.html', {'form': form})
 
 def myaccount(request):
+	if request.user.is_authenticated:
+		reviews = Review.objects.filter(Q(name=request.user.username))
+		return render(request, 'myaccount.html', {'reviews':reviews})
 	return render(request,'myaccount.html')
 
 def my_logout(request):
