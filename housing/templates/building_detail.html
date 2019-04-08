@@ -3,8 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<script src="../js/building_detail.js"></script>
 <div>
-  <h3>Building Detail for {{ building.name }}</h3>
+  <h3 style="display: inline;">Building Detail for {{ building.name }}</h3>
+  {% if user.username == building.admin %}
+  <a href="{% url 'housing:edit_building' pk=building.id %}">Edit Building</a>
+
+  {% endif %}
+  
   <p> Address: {{ building.address }} </p>
   <br>
   <h5>Units available:</h5>
@@ -66,14 +72,7 @@
   <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
 </div>
 
-{% if user.username == building.admin %}
-<form method="post" action={% url 'housing:update_building' pk=building.id%} >
-        {% csrf_token %}
-      <input type="text" class="form-control" id="address" placeholder="New Address" name="address" value="{{request.GET.address}}">
 
-<button class="btn btn-primary" type="submit" >Submit Changes</button>
-</form>
-{% endif %}
 
 <br>
 

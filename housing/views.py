@@ -7,6 +7,7 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
+from django.views.generic.edit import UpdateView
 
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit, Review
@@ -105,3 +106,9 @@ def myaccount(request):
 def my_logout(request):
     logout(request)
     return redirect(reverse('housing:index'))
+class EditBuilding(UpdateView):
+	template_name = 'edit.html'
+	model=Building
+	fields=['name','address']
+	success_url = reverse_lazy('housing:index')
+	

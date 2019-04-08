@@ -7,7 +7,6 @@
 '''
 from django import forms
 from django.utils import timezone
-
 from .models import Building, Review, Unit
 from multiselectfield import MultiSelectField
 
@@ -81,3 +80,5 @@ class ReviewForm(forms.Form):
 
 class UpdateForm(forms.Form):
 	address=forms.CharField(max_length=100)
+
+
