@@ -28,9 +28,9 @@ class BuildingForm(forms.Form):
 		_neighborhood = self.cleaned_data['neighborhood']
 		_admin = admin
 		is_approved=False
-		Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood).save()
-
-
+		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood)
+		building.save()
+		return building
 
 class BuildingImageForm(forms.Form):
 	image = forms.ImageField()
