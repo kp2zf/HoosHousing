@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h3>Edit Building </h3>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form method="post">
+	{% csrf_token %}
+    {{ form|crispy }}
+		{% include 'address.html' %}
+		<br>
+    <input type="submit" class="btn btn-success" value="Submit">
+</form>
+
+{% endblock %}

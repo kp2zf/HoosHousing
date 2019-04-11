@@ -4,10 +4,17 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+{% else %}
+<h3>You must be logged in to add a review.</h3>
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Log in with Google</a><br>
+{% endif %}
+
+
 
 {% endblock %}

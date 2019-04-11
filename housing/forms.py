@@ -7,7 +7,6 @@
 '''
 from django import forms
 from django.utils import timezone
-
 from .models import Building, Review, Unit
 from multiselectfield import MultiSelectField
 
@@ -19,15 +18,15 @@ MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
 class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
-	neighborhood = forms.ChoiceField(choices=MY_CHOICES)
-	admin = forms.CharField()
-	is_approved = forms.BooleanField(required=False, widget=forms.HiddenInput())
+	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
+	admin=forms.CharField(required=False,widget=forms.HiddenInput())
+	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
 
-	def save(self):
+	def save(self,admin):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
 		_neighborhood = self.cleaned_data['neighborhood']
-		_admin = self.cleaned_data['admin']
+		_admin = admin
 		is_approved=False
 		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood)
 		building.save()
@@ -81,3 +80,5 @@ class ReviewForm(forms.Form):
 
 class UpdateForm(forms.Form):
 	address=forms.CharField(max_length=100)
+
+

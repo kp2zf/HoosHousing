@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.auth.models import User
 
 from multiselectfield import MultiSelectField
 
@@ -27,7 +28,8 @@ class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
-
+    #pet_allowed= models.BooleanField()
+    #is_furnished=models.BooleanField()
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
@@ -57,4 +59,11 @@ class Review(models.Model):
     helpful_score = models.IntegerField(default=0) #amount of users that found this review helpful
     review_text = models.TextField()
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+class Vote(models.Model):
+    # building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
 
