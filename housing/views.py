@@ -8,7 +8,8 @@ from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.contrib.auth import logout
+from django.views.generic.edit import UpdateView
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit, Review, Vote
 
@@ -26,12 +27,11 @@ class AddBuildingView(FormView):
 	template_name = 'add_building.html'
 	form_class = BuildingForm
 	success_url = reverse_lazy('housing:add_building')
-
 	def form_valid(self, form):
 		# This method is called when valid form data has been POSTed.
 		# It should return an HttpResponse.
 		print('add_form form valid')
-		form.save()
+		form.save(admin=self.request.user.username)
 		return super().form_valid(form)
 
 def upload_building_image(request, pk=None):
@@ -48,11 +48,11 @@ class SearchView(TemplateView):
 
 def search(request):
 	template = 'results.html'
+	
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
 	buildings = Building.objects.filter(Q(unit__num_bedrooms__icontains=bedroom_query)&Q(neighborhood__icontains=neighborhood_query)&Q(name__icontains=search_query)).distinct()
-	print('got buildings:', buildings)
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
@@ -102,23 +102,27 @@ def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eve
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
-	print("called")
-	print('post', request.POST)
 	if request.method == 'POST':
 		form=UpdateForm(request.POST)
-		print("form1",form)
 		if form.is_valid():
-			print("form",form)
 			building.address=form.cleaned_data['address']
 			building.save()
 	else:
 		form=UpdateForm()
-		print("else")
 	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 
 def myaccount(request):
+	if request.user.is_authenticated:
+		reviews = Review.objects.filter(Q(name=request.user.username))
+		return render(request, 'myaccount.html', {'reviews':reviews})
 	return render(request,'myaccount.html')
 
 def my_logout(request):
     logout(request)
     return redirect(reverse('housing:index'))
+class EditBuilding(UpdateView):
+	template_name = 'edit.html'
+	model=Building
+	fields=['name','address']
+	success_url = reverse_lazy('housing:index')
+	

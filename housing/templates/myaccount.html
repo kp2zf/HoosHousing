@@ -4,8 +4,19 @@
 <h3> My Account </h3>
 	{% if user.is_authenticated %}
 		<p class="display-4">Hello, {{ user.username }}</p>
-		<p><a href="{% url 'housing:logout' %}">Log out</a></p>
-		<!--<a href="{% url 'social:disconnect' 'google-oauth2' %}">Log Out</a><br>-->
+		<p><a href="{% url 'housing:logout' %}">Log Out</a></p>
+		{% for review in reviews %}
+    		<div>
+       		<ul>
+    			<li> Rating: {{review.rating }}</li>
+    			<li>Reviewer Name: {{review.name}}</li>
+   			 	<li>{{review.review_text}}</li>
+  			</ul>
+    		</div>
+		{% endfor %}
+
+
+
 	{% else %}
 		<a href="{% url 'social:begin' 'google-oauth2' %}">Log In with Google</a><br>
 	{% endif %}
