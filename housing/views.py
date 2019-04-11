@@ -7,8 +7,8 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
+from django.contrib.auth import logout
 from django.views.generic.edit import UpdateView
-
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
 from .models import Building, Unit, Review
 
@@ -101,6 +101,9 @@ def update_building(request, pk):
 	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 
 def myaccount(request):
+	if request.user.is_authenticated:
+		reviews = Review.objects.filter(Q(name=request.user.username))
+		return render(request, 'myaccount.html', {'reviews':reviews})
 	return render(request,'myaccount.html')
 
 def my_logout(request):
