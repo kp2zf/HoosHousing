@@ -7,17 +7,28 @@
 '''
 from django import forms
 from django.utils import timezone
-
 from .models import Building, Review, Unit
+from multiselectfield import MultiSelectField
+
+MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
+            ('Corner','Corner'),
+            ('Rugby Road','Rugby Road'),
+            ('West Main','West Main'))
 
 class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
+	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
+	admin=forms.CharField(required=False,widget=forms.HiddenInput())
+	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
 
-	def save(self):
+	def save(self,admin):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
-		building = Building(name=_name, address=_addr)
+		_neighborhood = self.cleaned_data['neighborhood']
+		_admin = admin
+		is_approved=False
+		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood)
 		building.save()
 		return building
 
@@ -41,6 +52,7 @@ class UnitForm(forms.Form):
 		_square_footage = self.cleaned_data['square_footage']
 		_num_bedrooms = self.cleaned_data['num_bedrooms']
 		_available = self.cleaned_data['available']
+
 		unit = Unit(building = _building, monthly_rent=_monthly_rent, square_footage=_square_footage, num_bedrooms=_num_bedrooms, available=_available)
 		unit.save()
 		return unit
@@ -65,3 +77,8 @@ class ReviewForm(forms.Form):
 		review.date = timezone.now()
 		review.save()
 		return review
+
+class UpdateForm(forms.Form):
+	address=forms.CharField(max_length=100)
+
+
