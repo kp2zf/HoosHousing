@@ -7,10 +7,11 @@ from django.views import generic
 from django.db.models import Q
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from django.views.generic.edit import UpdateView
 from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
-from .models import Building, Unit, Review
+from .models import Building, Unit, Review, Vote
 
 def home(request):
     buildings = Building.objects.all()
@@ -81,13 +82,23 @@ def add_review(request, pk):
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
 
-def helpful_vote(request, pk, name, sorting= '-date'): #eventually change name to userid
+def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eventually change name to userid
 	#need to add sorting so page refreshes to same sorting option that was selected before
 	building = get_object_or_404(Building, pk=pk)
-	review = Review.objects.get(building=building, name=name)
-	review.helpful_score += 1
-	review.save()
-	return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
+	review = Review.objects.get(building=building, name=reviewer_name)
+	try:
+		vote = Vote.objects.get(review=review, username=voter_name)
+		vote.delete()
+		review.helpful_score -= 1
+		review.save()
+		return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
+	except ObjectDoesNotExist:
+		vote = Vote(review=review, username=voter_name)
+		vote.save()
+		review.helpful_score += 1
+		review.save()
+		return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
+
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)

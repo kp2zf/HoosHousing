@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load vote_functions %}
 
 {% block content %}
 <div>
@@ -66,16 +67,25 @@
     <li>Reviewer Name: {{review.name}}</li>
     <li>{{review.review_text}}</li>
     <li>{{review.helpful_score}} users found this review helpful.</li>
-    {% if user.username != building.admin %}
-    <li><a href="{% url 'housing:helpful_vote' pk=building.id name=review.name sorting=sorting%}">I found this helpful</a></li>
+    <script>var has_voted = False</script>
+    {% if user.is_authenticated %}
+          {% if user.username != building.admin %}
+    <li><a href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}">I found this helpful</a></li>
+          {% endif %}
+    {% else %}
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:building_detail' pk=building.id %}">Log in to vote on reviews!</a><br>
     {% endif %}
   </ul>
   {% endfor %}
   {% else %}
   <p> No reviews available at this time.</p>
   {% endif %}
-  {% if user.username != building.admin %}
-  <a href="{% url 'housing:add_review' pk=building.id %}">Add a review</a>
+  {% if user.is_authenticated %}
+    {% if user.username != building.admin %}
+    <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
+    {% endif %}
+  {% else %}
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
   {% endif %}
 </div>
 

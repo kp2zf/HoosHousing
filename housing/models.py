@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.auth.models import User
 
 from multiselectfield import MultiSelectField
 
@@ -58,4 +59,11 @@ class Review(models.Model):
     helpful_score = models.IntegerField(default=0) #amount of users that found this review helpful
     review_text = models.TextField()
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+class Vote(models.Model):
+    # building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
 
