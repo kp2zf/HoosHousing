@@ -32,6 +32,7 @@ urlpatterns = [
     # sorted review path
     path('buildings/<int:pk>/<slug:sorting>/', views.building_detail, name='building_detail'),
     path('update_building/<int:pk>/', views.update_building, name='update_building'),
+    path('edit/<int:pk>/',views.EditBuilding.as_view(),name="edit_building"),
     path('myaccount/', views.myaccount, name='myaccount'),
     path('logout/', views.my_logout, name="logout"),
 ]

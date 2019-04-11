@@ -5,14 +5,17 @@
 
 <div>
 	{% if buildings %}
-	    {%for building in buildings%}
+		{%for building in buildings%}
+		{%if building.approved%}
 	    <div>
 	        <a href="{% url 'housing:building_detail' building.id %}">
 	        <h3>{{ building.name }}</h3>
 	        </a>
 	        <p>Address: {{ building.address }}</p>
-	    </div>
-    	{%endfor%}
+		</div>
+		{%endif%}
+		{%endfor%}
+		
 	{% else %}
 		No buildings found. Want to <a href="{% url 'housing:add_building' %}">add one</a>?
 	{% endif %}
