@@ -52,7 +52,17 @@ def search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
-	buildings = Building.objects.filter(Q(unit__num_bedrooms__icontains=bedroom_query)&Q(neighborhood__icontains=neighborhood_query)&Q(name__icontains=search_query)).distinct()
+	if(neighborhood_query!=""):
+		neighborhood_query=Q(neighborhood__icontains=neighborhood_query)
+	else:
+		neighborhood_query=Q(name__icontains=search_query)
+	if(bedroom_query!=""):
+		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
+	else:
+		bedroom_query=Q(name__icontains=search_query)
+
+	search_query=Q(name__icontains=search_query)
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query).distinct()
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
