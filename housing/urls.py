@@ -15,8 +15,12 @@ urlpatterns = [
 	path('', home, name='index'),
     # ex: /search/
     path('search/', views.SearchView.as_view(), name='search'),
+    # ex: /advanced_search/
+    path('advanced_search/', views.AdvancedSearchView.as_view(), name='advanced_search'),
     # ex: /search_form/
     path('search_form/', views.search, name='search_form'),
+    # ex: /advanced_search_form/
+    path('advanced_search_form/', views.advanced_search, name='advanced_search_form'),
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/

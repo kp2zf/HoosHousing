@@ -2,7 +2,7 @@
 {% block content %}
 <h1> Search Units </h1>
 <hr>
-<form type="GET" action="{% url 'housing:search_form' %}" class="form-inline" style="margin: 0">
+<form type="GET" action="{% url 'housing:advanced_search_form' %}" class="form-inline" style="margin: 0">
   <div class="form-group mb-2">
     <input  type="text" value="{{request.GET.search_box}}"name="search_box" class="form-control"  placeholder="Building Name" >
   </div>
@@ -27,7 +27,6 @@
   </div>
   <button type="submit" class="btn btn-primary mb-2">Search</button>
 </form>
-<a href="{% url 'housing:advanced_search' %}">Advanced Search</a>
 
 {% if isSearchResult %}
   <div>
