@@ -26,7 +26,7 @@ def building_detail(request, pk=None, sorting= '-date'):
 class AddBuildingView(FormView):
 	template_name = 'add_building.html'
 	form_class = BuildingForm
-	success_url = reverse_lazy('housing:add_building')
+	success_url = reverse_lazy('housing:success')
 	def form_valid(self, form):
 		# This method is called when valid form data has been POSTed.
 		# It should return an HttpResponse.
@@ -65,6 +65,9 @@ def search(request):
 	search_query=Q(name__icontains=search_query)
 	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query).distinct()
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
+
+class SuccessView(TemplateView):
+	template_name = 'building_success.html'
 
 def advanced_search(request):
 	template = 'results.html'

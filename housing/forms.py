@@ -52,7 +52,7 @@ class BuildingForm(forms.Form):
 		is_approved=False
 		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood,pet_allowed=_pet_allowed,
 		is_furnished=_is_furnished,air_conditioning=_air_conditioning,lease_length=_lease_length,parking_cost=_parking_cost,
-		amenities=_amenities,website_link=_website_link,email=_email,phone_number=_phone_number)
+		pool=_pool,gym=_gym,website_link=_website_link,email=_email,phone_number=_phone_number)
 		building.save()
 		return building
 
