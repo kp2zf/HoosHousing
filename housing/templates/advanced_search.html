@@ -25,6 +25,35 @@
       <option>Jefferson Park Avenue</option>
     </select>
   </div>
+  <br>
+  <div class="form-group mx-sm-1 mb-2">
+      <select class="form-control" id="pet_allowed" value="{{request.GET.pet_allowed}}" name="pet_allowed">
+          <option value="">Pet Allowed</option>
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+      </select>
+  </div>
+  <div class="form-group mx-sm-1 mb-2">
+      <select class="form-control" id="parking" value="{{request.GET.parking}}" name="parking">
+          <option value="">Parking Available</option>
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+      </select>
+  </div>
+  <div class="form-group mx-sm-1 mb-2">
+      <select class="form-control" id="furnished" value="{{request.GET.furnished}}" name="furnished">
+          <option value="">Select Furnishing</option>
+          <option value="True">Furnished</option>
+          <option value="False">Unfurnished</option>
+      </select>
+  </div>
+  <div class="form-group mx-sm-1 mb-2">
+      <select class="form-control" id="air_condition" value="{{request.GET.air_condition}}" name="air_condition">
+          <option value="">Air Conditioning</option>
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+      </select>
+  </div>
   <button type="submit" class="btn btn-primary mb-2">Search</button>
 </form>
 
