@@ -200,5 +200,6 @@ def my_logout(request):
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
 	model=Building
-	fields=['name','address']
+	fields=['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
+			'parking','pool','gym','neighborhood','website_link','email','phone_number']
 	success_url = reverse_lazy('housing:index')
