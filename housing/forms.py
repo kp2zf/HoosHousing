@@ -21,7 +21,7 @@ class BuildingForm(forms.Form):
 	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
 	admin=forms.CharField(required=False,widget=forms.HiddenInput())
 	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
-
+	rating=forms.DecimalField(required=False,widget=forms.HiddenInput())
 	pet_allowed= forms.BooleanField(required=False)
 	is_furnished=forms.BooleanField(required=False)
 	air_conditioning=forms.BooleanField(required=False)
@@ -38,6 +38,7 @@ class BuildingForm(forms.Form):
 		_addr = self.cleaned_data['address']
 		_neighborhood = self.cleaned_data['neighborhood']
 		_admin = admin
+		_rating = 0
 		_pet_allowed=self.cleaned_data['pet_allowed']
 		_is_furnished=self.cleaned_data['is_furnished']
 		_air_conditioning=self.cleaned_data['air_conditioning']
@@ -52,7 +53,7 @@ class BuildingForm(forms.Form):
 		is_approved=False
 		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood,pet_allowed=_pet_allowed,
 		is_furnished=_is_furnished,air_conditioning=_air_conditioning,lease_length=_lease_length,parking_cost=_parking_cost,
-		pool=_pool,gym=_gym,website_link=_website_link,email=_email,phone_number=_phone_number)
+		pool=_pool,gym=_gym,website_link=_website_link,email=_email,phone_number=_phone_number,rating=_rating)
 		building.save()
 		return building
 

@@ -75,17 +75,52 @@ def advanced_search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
+
+	search_query=Q(name__icontains=search_query)
+	
+	pet_query=request.GET.get('pet_allowed')
+	if(pet_query=="True"):
+		pet_query=Q(pet_allowed=True)
+	elif(pet_query=="False"):
+		pet_query=Q(pet_allowed=False)
+	else:
+		pet_query=search_query
+
+	parking_query=request.GET.get('parking')
+	if(parking_query=="True"):
+		parking_query=Q(parking=True)
+	elif(parking_query=="False"):
+		parking_query=Q(parking=False)
+	else:
+		parking_query=search_query
+
+	furnished_query=request.GET.get('furnished')
+	if(furnished_query=="True"):
+		furnished_query=Q(is_furnished=True)
+	elif(furnished_query=="False"):
+		furnished_query=Q(is_furnished=False)
+	else:
+		furnished_query=search_query
+
+	air_condition_query=request.GET.get('air_condition')
+	if(air_condition_query=="True"):
+		air_condition_query=Q(air_conditioning=True)
+	elif(furnished_query=="False"):
+		air_condition_query=Q(air_conditioning=False)
+	else:
+		air_condition_query=search_query
+	
 	if(neighborhood_query!=""):
 		neighborhood_query=Q(neighborhood__icontains=neighborhood_query)
 	else:
-		neighborhood_query=Q(name__icontains=search_query)
+		neighborhood_query=search_query
 	if(bedroom_query!=""):
 		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
 	else:
-		bedroom_query=Q(name__icontains=search_query)
+		bedroom_query=search_query
 
-	search_query=Q(name__icontains=search_query)
-	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query).distinct()
+	
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
 	return render(request, 'advanced_search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
