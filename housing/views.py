@@ -102,7 +102,7 @@ class AddUnitView(TemplateView):
         building = get_object_or_404(Building, pk=pk)
         if unit_form.is_valid():
             unit_form.save(building)
-            return render(request,'building_detail.html',{'building':building })
+            return redirect(reverse('housing:building_detail',kwargs={'pk':pk }))
         return render(request, 'add_unit.html', args)
 
 def add_review(request, pk):

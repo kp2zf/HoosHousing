@@ -161,7 +161,51 @@
     </div>
     {% for review in reviews %}
     <ul>
-      <li> Rating: {{review.rating }}</li>
+      {% if review.rating == 1 %}
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+      </div>
+      {% elif review.rating == 2 %}
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+      </div>
+      {% elif review.rating == 3 %}
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+      </div>
+      {% elif review.rating == 4 %}
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+      </div>
+      {% elif review.rating == 5 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        "{{review.header}}"
+      </div>
+      </h3>
+      {% endif %}
+      <h3>"{{review.header}}"</h3>
       <li>Reviewer Name: {{review.name}}</li>
       <li>{{review.review_text}}</li>
       <li>{{review.helpful_score}} users found this review helpful.</li>

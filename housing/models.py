@@ -73,5 +73,6 @@ class Profile(models.Model):
 class Vote(models.Model):
     # building = models.ForeignKey(Building, on_delete=models.CASCADE)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
 
