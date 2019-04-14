@@ -13,6 +13,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	# ex: /
 	path('', home, name='index'),
+    # ex: /review/
+    path('review/', views.review, name='review'),
     # ex: /search/
     path('search/', views.SearchView.as_view(), name='search'),
     # ex: /advanced_search/
@@ -21,6 +23,8 @@ urlpatterns = [
     path('search_form/', views.search, name='search_form'),
     # ex: /advanced_search_form/
     path('advanced_search_form/', views.advanced_search, name='advanced_search_form'),
+    # ex: /toggle_building_published/
+    path('toggle_building_published/<int:pk>/', views.toggle_building_published, name='toggle_building_published'),
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/
