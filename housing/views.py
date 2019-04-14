@@ -14,18 +14,29 @@ from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, Update
 from .models import Building, Unit, Review, Vote
 
 def home(request):
-    buildings = Building.objects.all()
-    return render(request,'home.html',{'buildings':buildings})
+	buildings = Building.objects.all()
+	return render(request,'home.html',{'buildings':buildings})
 
 def review(request):
-    buildings = Building.objects.all()
-    return render(request,'review_buildings.html',{'buildings':buildings})
+	buildings = Building.objects.all()
+	return render(request,'review_buildings.html',{'buildings':buildings})
 
 def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
 	reviews = reviews.order_by(sorting)
-	return render(request,'building_detail.html',{'building':building, 'reviews':reviews, 'sorting':sorting})
+	upvoted_reviews = [] # the reviews that have already been upvoted by this user
+	for review in reviews:
+		votes = review.vote_set.all()
+		voted_users = [vote.username for vote in votes]
+		if request.user.username in voted_users:
+			upvoted_reviews.append(review)
+	return render(request, 'building_detail.html', {
+		'building':building,
+		'reviews':reviews,
+		'upvoted_reviews': upvoted_reviews,
+		'sorting':sorting
+		})
 
 class AddBuildingView(FormView):
 	template_name = 'add_building.html'
@@ -90,20 +101,20 @@ def advanced_search(request):
 	return render(request, 'advanced_search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
-    template_name = 'add_unit.html'
-    success_url = reverse_lazy('housing:add_unit')
+	template_name = 'add_unit.html'
+	success_url = reverse_lazy('housing:add_unit')
 
-    def get(self, request, pk=None):
-        form = UnitForm()
-        return render(request, 'add_unit.html', {'form': form})
+	def get(self, request, pk=None):
+		form = UnitForm()
+		return render(request, 'add_unit.html', {'form': form})
 
-    def post(self, request, pk=None):
-        unit_form = UnitForm(request.POST)
-        building = get_object_or_404(Building, pk=pk)
-        if unit_form.is_valid():
-            unit_form.save(building)
-            return render(request,'building_detail.html',{'building':building })
-        return render(request, 'add_unit.html', args)
+	def post(self, request, pk=None):
+		unit_form = UnitForm(request.POST)
+		building = get_object_or_404(Building, pk=pk)
+		if unit_form.is_valid():
+			unit_form.save(building)
+			return render(request,'building_detail.html',{'building':building })
+		return render(request, 'add_unit.html', args)
 
 def add_review(request, pk):
 	building = get_object_or_404(Building, pk=pk)
@@ -157,8 +168,8 @@ def myaccount(request):
 	return render(request,'myaccount.html')
 
 def my_logout(request):
-    logout(request)
-    return redirect(reverse('housing:index'))
+	logout(request)
+	return redirect(reverse('housing:index'))
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
 	model=Building
