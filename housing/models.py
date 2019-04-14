@@ -17,7 +17,6 @@ def validate_review_rating(value):
         )
 
 ''' Model classes. '''
-
 MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
             ('Corner','Corner'),
             ('Rugby Road','Rugby Road'),
@@ -28,9 +27,17 @@ class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
-    #pet_allowed= models.BooleanField()
-    #is_furnished=models.BooleanField()
+    pet_allowed= models.BooleanField()
+    is_furnished=models.BooleanField()
+    air_conditioning=models.BooleanField()
+    lease_length=models.CharField(max_length=100)
+    parking_cost=models.IntegerField(null=True)
+    pool=models.BooleanField()
+    gym=models.BooleanField()
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
+    website_link=models.CharField(max_length=100,null=True)
+    email=models.CharField(max_length=100)
+    phone_number=models.CharField(max_length=100)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
     def __str__(self):

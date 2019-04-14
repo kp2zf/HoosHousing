@@ -2,9 +2,10 @@
   margin-bottom: 8px;
 }
 
-.amenity-box > p {
+.amenity-box p {
   font-size: 18px;
   font-weight: 300;
+  margin: auto 12px;
 }
 
 .amenity-icon {
@@ -14,8 +15,4 @@
   color: white;
   font-size: 1.4em;
   line-height: .75em;
-}
-
-.center {
-  margin: auto;
 }
