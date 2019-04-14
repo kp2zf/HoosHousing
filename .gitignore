@@ -14,8 +14,6 @@ __pycache__/
 
 # Gitignore our database
 db.sqlite3
-# Gitignore our static media
-media
 # Gitignore our static files
 mysite/static/
 staticfiles/
