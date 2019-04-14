@@ -5,7 +5,7 @@
 
 {% block content %}
 <div>
-<<<<<<< HEAD
+
   <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
   <h5> {{ building.address }} </h5>
   <hr>
@@ -13,11 +13,13 @@
   <a href="{% url 'housing:edit_building' pk=building.id %}">Edit Building</a>
   <hr>
   {% endif %}
->>>>>>> master
+
   <h5>Units available:</h5>
 
   {% if building.image %}
   <img src="{{ building.image.url }}" />
+  {% else %}
+  <img src="/files/default-building.png" />
   {% endif %}
 
   {% if building.unit_set.all %}
