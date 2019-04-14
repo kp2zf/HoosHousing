@@ -3,7 +3,12 @@
 {% load crispy_forms_tags %}
 {% load vote_functions %}
 
+{% load static %}
+
 {% block content %}
+
+<link rel="stylesheet" href='{% static "building_detail.css" %}' crossorigin="anonymous">
+
 <div>
 
   <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
@@ -14,14 +19,35 @@
   <hr>
   {% endif %}
 
+  <div class="row">
+    <div class="col-7">
+      {% if building.image %}
+      <img src="{{ building.image.url }}" class="img-fluid" />
+      {% else %}
+      <img src="/files/default-building.png" class="img-fluid" />
+      {% endif %}
+    </div>
+    <div class="col-5 text-center">
+      <br>
+      <br>
+      <div class="row amenity-box">
+        <i class="amenity-icon fas fa-dog"></i>
+        <p class="center">Allows Pets</p>
+      </div>
+      <div class="row amenity-box">
+        <i class="amenity-icon far fa-snowflake"></i>
+        <p class="center">Has Air Conditioning</p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="text-center">
+    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Contact</a>
+  </div>
+  <hr>
+
   <h5>Units available:</h5>
-
-  {% if building.image %}
-  <img src="{{ building.image.url }}" />
-  {% else %}
-  <img src="/files/default-building.png" />
-  {% endif %}
-
   {% if building.unit_set.all %}
   <table class="table">
     <thead>
