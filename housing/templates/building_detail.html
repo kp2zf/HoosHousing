@@ -15,130 +15,176 @@
   <h5> {{ building.address }} </h5>
   <hr>
   {% if user.username == building.admin %}
-  <a href="{% url 'housing:edit_building' pk=building.id %}">Edit Building</a>
-
-  {% endif %}
-
-  <p> Address: {{ building.address }} </p>
-  <br>
-  <h5>Units available:</h5>
-
-  {% if building.image %}
-  <img src="{{ building.image.url }}" />
+  <div class="card bg-light" style="margin-bottom: 20px">
+    <div class="card-body">
+      <h3> Admin Panel </h3>
+      <a class="btn btn-info" href="{% url 'housing:edit_building' pk=building.id %}" style="margin-bottom:16px">Edit Information for {{building.name}}</a>
+      <h6> Upload a picture: </h6>
+      <form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="file" name="image">
+          <button class="btn btn-success" type="submit">Upload Image</button>
+      </form>
+    </div>
+  </div>
   {% endif %}
 
   <div class="row">
-    <div class="col-7">
+    <div class="col-6">
       {% if building.image %}
       <img src="{{ building.image.url }}" class="img-fluid" />
       {% else %}
       <img src="/files/default-building.png" class="img-fluid" />
       {% endif %}
+      {% if user.username == building.admin %}
+      {% endif %}
     </div>
-    <div class="col-5 text-center">
+    <div class="col-6 text-center">
       <br>
       <br>
+      {% if building.pet_allowed %}
       <div class="row amenity-box">
         <i class="amenity-icon fas fa-dog"></i>
-        <p class="center">Allows Pets</p>
+        <p>Allows Pets</p>
       </div>
+      {% endif %}
+      {% if building.is_furnished %}
       <div class="row amenity-box">
-        <i class="amenity-icon far fa-snowflake"></i>
-        <p class="center">Has Air Conditioning</p>
+        <i class="amenity-icon fas fa-couch"></i>
+        <p>Comes With Furniture</p>
       </div>
+      {% endif %}
+      {% if building.air_conditioning %}
+      <div class="row amenity-box">
+          <i class="amenity-icon far fa-snowflake"></i>
+          <p>Has Air Conditioning</p>
+      </div>
+      {% endif %}
+      {% if building.gym %}
+      <div class="row amenity-box">
+        <i class="amenity-icon fas fa-dumbbell"></i>
+        <p>Onsite Gym</p>
+      </div>
+      {% endif %}
+      {% if building.pool %}
+      <div class="row amenity-box">
+        <i class="amenity-icon fas fa-swimmer"></i>
+        <p>Has Own Pool</p>
+      </div>
+      {% endif %}
     </div>
   </div>
 
   <hr>
-  <div class="text-center">
-    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Contact</a>
-  </div>
-  <hr>
-
-  <h5>Units available:</h5>
-  {% if building.unit_set.all %}
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Number of Bedrooms</th>
-      <th scope="col">Square Footage</th>
-      <th scope="col">Monthly Rent</th>
-    </tr>
-  </thead>
-    <tbody>
-    {% for unit in building.unit_set.all %}
-    <tr>
-      <th scope="row">#</th>
-      <td>{{ unit.num_bedrooms }}</td>
-      <td>{{ unit.square_footage }}</td>
-      <td>{{ unit.monthly_rent }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p> No units to show for {{ building.name }}.</p>
-  {% endif %}
-  {% if user.username == building.admin %}
-  <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
-  {% endif %}
-
-
+  <div class="row">
+    <div class="col-8">
+      {% include 'map.html' with address=building.address %}
+    </div>
+    <div class="col-4">
+      <div class="text-center">
+        <h4> Contact Us </h4>
+        {% if building.website_link %}
+          <i class="fas fa-desktop"></i>
+          <a href="{{building.website_link}}">{{building.website_link}}</a>
+          <br>
+        {% endif %}
+        {% if building.phone_number %}
+          <i class="fas fa-phone"></i>
+          {{ building.phone_number }}
+          <br>
+        {% endif %}
+        {% if building.email %}
+          <i class="fas fa-envelope-square"></i>
+          {{ building.email }}
+          <br>
+        {% endif %}
+      </div>
+    </div>
 </div>
-{% if user.username == building.admin %}
-<form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="image">
-    <button class="btn btn-success" type="submit">Upload Image</button>
-</form>
-{% endif %}
-<br>
+<hr>
 
-<div>
-  <h5>Reviews:</h5>
-  {% if building.review_set.all %}
-  <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="reviewSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Sort by
-  </button>
-  <div class="dropdown-menu" aria-labelledby="reviewSort">
-    <a class="dropdown-item" href="/buildings/{{ building.id }}/-date">Most recent first</a>
-    <a class="dropdown-item" href="/buildings/{{ building.id }}/-helpful_score">Most helpful first</a>
-    <a class="dropdown-item" href="/buildings/{{ building.id }}/-rating">Highest rating first</a>
-    <a class="dropdown-item" href="/buildings/{{ building.id }}/rating">Lowest rating first</a>
-  </div>
-  </div>
-  {% for review in reviews %}
-  <ul>
-    <li> Rating: {{review.rating }}</li>
-    <li>Reviewer Name: {{review.name}}</li>
-    <li>{{review.review_text}}</li>
-    <li>{{review.helpful_score}} users found this review helpful.</li>
-    <script>var has_voted = False</script>
-    {% if user.is_authenticated %}
-          {% if user.username != building.admin %}
-    <li><a href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}">I found this helpful</a></li>
-          {% endif %}
+<!-- Units-->
+<div class="row">
+  <div class="col">
+    <h5>Units available:</h5>
+    {% if building.unit_set.all %}
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Number of Bedrooms</th>
+        <th scope="col">Square Footage</th>
+        <th scope="col">Monthly Rent</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for unit in building.unit_set.all %}
+      <tr>
+        <th scope="row">#</th>
+        <td>{{ unit.num_bedrooms }}</td>
+        <td>{{ unit.square_footage }}</td>
+        <td>{{ unit.monthly_rent }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
     {% else %}
-    <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:building_detail' pk=building.id %}">Log in to vote on reviews!</a><br>
+    <p> No units to show for {{ building.name }}.</p>
     {% endif %}
-  </ul>
-  {% endfor %}
-  {% else %}
-  <p> No reviews available at this time.</p>
-  {% endif %}
-  {% if user.is_authenticated %}
-    {% if user.username != building.admin %}
-    <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
+    {% if user.username == building.admin %}
+    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
     {% endif %}
-  {% else %}
-    <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
-  {% endif %}
+  </div>
 </div>
 
-<br>
+<hr>
 
-{% include 'map.html' with address=building.address %}
+<!-- Reviews -->
+<div class="row">
+  <div class="col">
+    <h5>Reviews:</h5>
+    {% if building.review_set.all %}
+    <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="reviewSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort by
+    </button>
+    <div class="dropdown-menu" aria-labelledby="reviewSort">
+      <a class="dropdown-item" href="/buildings/{{ building.id }}/-date">Most recent first</a>
+      <a class="dropdown-item" href="/buildings/{{ building.id }}/-helpful_score">Most helpful first</a>
+      <a class="dropdown-item" href="/buildings/{{ building.id }}/-rating">Highest rating first</a>
+      <a class="dropdown-item" href="/buildings/{{ building.id }}/rating">Lowest rating first</a>
+    </div>
+    </div>
+    {% for review in reviews %}
+    <ul>
+      <li> Rating: {{review.rating }}</li>
+      <li>Reviewer Name: {{review.name}}</li>
+      <li>{{review.review_text}}</li>
+      <li>{{review.helpful_score}} users found this review helpful.</li>
+      <script>var has_voted = False</script>
+      {% if user.is_authenticated %}
+            {% if user.username != building.admin %}
+      <li><a href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}">I found this helpful</a></li>
+            {% endif %}
+      {% else %}
+      <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:building_detail' pk=building.id %}">Log in to vote on reviews!</a><br>
+      {% endif %}
+    </ul>
+    {% endfor %}
+    {% else %}
+    <p> No reviews available at this time.</p>
+    {% endif %}
+    {% if user.is_authenticated %}
+      {% if user.username != building.admin %}
+      <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
+      {% else %}
+      <p><b> Sorry, you can't leave a review for your own building. 🙂 </b></p>
+      {% endif %}
+    {% else %}
+      <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
+    {% endif %}
+  </div>
+</div>
+<br>
 
 {% endblock %}

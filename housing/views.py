@@ -72,7 +72,7 @@ def search(request):
 
 def advanced_search(request):
 	template = 'results.html'
-	
+
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
