@@ -9,12 +9,13 @@
 }
 
 .amenity-icon {
-  padding: .6em;
+  padding: .5em;
   background: #a0a0a0;
   border-radius: 999px;
   color: white;
   font-size: 1.4em;
   line-height: .75em;
+  width: 2.5em;
 }
 
 .contact-icon {
@@ -23,7 +24,7 @@
   background: #333;
   border-radius: 999px;
   font-size: 0.9em;
-  padding: .4em;
+  padding: .5em;
   color: white;
 }
 
