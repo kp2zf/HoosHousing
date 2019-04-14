@@ -40,8 +40,6 @@
       {% endif %}
     </div>
     <div class="col-6 text-center">
-      <br>
-      <br>
       {% if building.pet_allowed %}
       <div class="row amenity-box">
         <i class="amenity-icon fas fa-dog"></i>
@@ -82,22 +80,28 @@
     </div>
     <div class="col-4">
       <div class="text-center">
-        <h4> Contact Us </h4>
-        {% if building.website_link %}
-          <i class="fas fa-desktop"></i>
-          <a href="{{building.website_link}}">{{building.website_link}}</a>
-          <br>
-        {% endif %}
-        {% if building.phone_number %}
-          <i class="fas fa-phone"></i>
-          {{ building.phone_number }}
-          <br>
-        {% endif %}
-        {% if building.email %}
-          <i class="fas fa-envelope-square"></i>
-          {{ building.email }}
-          <br>
-        {% endif %}
+        <div class="row"><h4> Contact Us </h4></div>
+        <div class="row">
+          {% if building.website_link %}
+            <i class="contact-icon fas fa-desktop"></i>
+            <a href="{{building.website_link}}">{{building.website_link}}</a>
+            <br>
+          {% endif %}
+        </div>
+        <div class="row">
+          {% if building.phone_number %}
+            <i class="contact-icon fas fa-phone"></i>
+            {{ building.phone_number }}
+            <br>
+          {% endif %}
+        </div>
+        <div class="row">
+          {% if building.email %}
+            <i class="contact-icon fas fa-envelope-square"></i>
+            {{ building.email }}
+            <br>
+          {% endif %}
+        </div>
       </div>
     </div>
 </div>
