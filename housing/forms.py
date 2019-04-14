@@ -25,8 +25,8 @@ class BuildingForm(forms.Form):
 	pet_allowed= forms.BooleanField(required=False)
 	is_furnished=forms.BooleanField(required=False)
 	air_conditioning=forms.BooleanField(required=False)
-	lease_length=forms.CharField(max_length=100)
-	parking_cost=forms.IntegerField(required=False)
+	lease_length=forms.IntegerField()
+	parking=forms.BooleanField(required=False)
 	pool=forms.BooleanField(required=False)
 	gym=forms.BooleanField(required=False)
 	website_link=forms.CharField(max_length=100,required=False)
@@ -43,7 +43,7 @@ class BuildingForm(forms.Form):
 		_is_furnished=self.cleaned_data['is_furnished']
 		_air_conditioning=self.cleaned_data['air_conditioning']
 		_lease_length=self.cleaned_data['lease_length']
-		_parking_cost=self.cleaned_data['parking_cost']
+		_parking=self.cleaned_data['parking']
 		_pool=self.cleaned_data['pool']
 		_gym=self.cleaned_data['gym']
 		_website_link=self.cleaned_data['website_link']
@@ -56,7 +56,7 @@ class BuildingForm(forms.Form):
 			pet_allowed=_pet_allowed, is_furnished=_is_furnished,
 			pool=_pool, gym=_gym,
 			air_conditioning=_air_conditioning, lease_length=_lease_length,
-			parking_cost=_parking_cost, website_link=_website_link,
+			parking=_parking, website_link=_website_link,
 			email=_email,phone_number=_phone_number)
 		building.save()
 		return building
