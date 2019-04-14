@@ -1,5 +1,5 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #E7E7E7">
-  <a class="navbar-brand">Hoos' Housing</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #E7E7E7">
+  <a class="navbar-brand" id="hoos-housing">Hoos' Housing</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -30,36 +30,4 @@
       {% endif %}
     </ul>
   </div>
-</nav> -->
-
-{% load static %}
-<link rel="stylesheet" href={% static "main.css" %}>
-<link rel="stylesheet" href={% static "base.css" %}>
-
-<section class="s-pageheader s-pageheader--home">
-
-  <header class="header">
-    <div class="header__content row">
-
-      <div class="header__logo">
-        <a class="logo" href="/">
-          <h4 style="color: white"> Hoos Housing. </h4>
-        </a>
-      </div>
-
-      <div style="margin-left: auto" class="row">
-          <li {% if "/search" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'housing:search' %}">
-              Search
-            </a>
-          </li>
-
-          <li {% if "/myaccount" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'housing:myaccount' %}">
-              Sign In
-            </a>
-          </li>
-      </div>
-    </div>
-  </header>
-</section>
+</nav>

@@ -9,10 +9,25 @@
 }
 
 .amenity-icon {
-  padding: .6em;
+  padding: .5em;
   background: #a0a0a0;
   border-radius: 999px;
   color: white;
   font-size: 1.4em;
   line-height: .75em;
+  width: 2.5em;
+}
+
+.contact-icon {
+  margin-bottom: 8px;
+  margin-right: 12px;
+  background: #333;
+  border-radius: 999px;
+  font-size: 0.9em;
+  padding: .5em;
+  color: white;
+}
+
+.building-img {
+  border-radius: 5px;
 }
