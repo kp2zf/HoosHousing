@@ -4,23 +4,37 @@
 {% if buildings %}
 <h3> Unpublished Buildings </h3>
   {% for building in buildings %}
-    {%if !building.approved%}
-      <div>
-          <a href="{% url 'housing:building_detail' building.id %}">
-          <h3>{{ building.name }}</h3>
-          </a>
-          <p>Address: {{ building.address }}</p>
+    {%if not building.approved%}
+      <div class="row">
+          <div class="col-11">
+            <a href="{% url 'housing:building_detail' building.id %}">
+            <h3>{{ building.name }}</h3>
+            </a>
+            <p>Address: {{ building.address }}</p>
+          </div>
+          <div class="col-1">
+            <form action="{% url 'housing:toggle_building_published' pk=building.id %}">
+              <input type="submit" class="btn btn-primary" value="Publish" />
+            </form>
+          </div>
       </div>
     {% endif %}
   {% endfor %}
 <h3> Published Buildings </h3>
   {%for building in buildings%}
-    {%if !building.approved%}
-      <div>
+    {%if building.approved%}
+      <div class="row">
+        <div class="col-11">
           <a href="{% url 'housing:building_detail' building.id %}">
           <h3>{{ building.name }}</h3>
           </a>
           <p>Address: {{ building.address }}</p>
+        </div>
+        <div class="col-1">
+          <form action="{% url 'housing:toggle_building_published' pk=building.id %}">
+            <input type="submit" class="btn btn-danger" value="Unpublish" />
+          </form>
+        </div>
       </div>
     {% endif %}
   {% endfor %}

@@ -19,6 +19,8 @@ urlpatterns = [
     path('search/', views.SearchView.as_view(), name='search'),
     # ex: /search_form/
     path('search_form/', views.search, name='search_form'),
+    # ex: /toggle_building_published/
+    path('toggle_building_published/<int:pk>/', views.toggle_building_published, name='toggle_building_published'),
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/

@@ -103,6 +103,11 @@ def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eve
 		review.save()
 		return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
 
+def toggle_building_published(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	building.approved = not building.approved
+	building.save()
+	return redirect(reverse('housing:review'))
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
