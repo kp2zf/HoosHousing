@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if buildings %}
+<h3> Unpublished Buildings </h3>
+  {% for building in buildings %}
+    {%if !building.approved%}
+      <div>
+          <a href="{% url 'housing:building_detail' building.id %}">
+          <h3>{{ building.name }}</h3>
+          </a>
+          <p>Address: {{ building.address }}</p>
+      </div>
+    {% endif %}
+  {% endfor %}
+<h3> Published Buildings </h3>
+  {%for building in buildings%}
+    {%if !building.approved%}
+      <div>
+          <a href="{% url 'housing:building_detail' building.id %}">
+          <h3>{{ building.name }}</h3>
+          </a>
+          <p>Address: {{ building.address }}</p>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% else %}
+No buildings found. Want to <a href="{% url 'housing:add_building' %}">add one</a>?
+{% endif %}
+{% endblock %}

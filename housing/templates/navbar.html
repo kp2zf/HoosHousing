@@ -21,6 +21,13 @@
           My Account
         </a>
       </li>
+      {% if user.is_superuser %}
+      <li {% if "/review" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+        <a class="nav-link" href="{% url 'housing:review' %}">
+          Reviw Buildings
+        </a>
+      </li>
+      {% endif %}
     </ul>
   </div>
 </nav>

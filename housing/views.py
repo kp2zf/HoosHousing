@@ -17,6 +17,10 @@ def home(request):
     buildings = Building.objects.all()
     return render(request,'home.html',{'buildings':buildings})
 
+def review(request):
+    buildings = Building.objects.all()
+    return render(request,'review_buildings.html',{'buildings':buildings})
+
 def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
@@ -48,7 +52,7 @@ class SearchView(TemplateView):
 
 def search(request):
 	template = 'results.html'
-	
+
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
@@ -125,4 +129,3 @@ class EditBuilding(UpdateView):
 	model=Building
 	fields=['name','address']
 	success_url = reverse_lazy('housing:index')
-	
