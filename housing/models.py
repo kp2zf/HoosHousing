@@ -30,8 +30,8 @@ class Building(models.Model):
     pet_allowed= models.BooleanField()
     is_furnished=models.BooleanField()
     air_conditioning=models.BooleanField()
-    lease_length=models.CharField(max_length=100)
-    parking_cost=models.IntegerField(null=True)
+    lease_length=models.IntegerField()
+    parking=models.BooleanField(null=True)
     pool=models.BooleanField()
     gym=models.BooleanField()
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
@@ -40,6 +40,7 @@ class Building(models.Model):
     phone_number=models.CharField(max_length=100)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
+    rating=models.DecimalField(null=True,max_digits=3,decimal_places=2)
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 
