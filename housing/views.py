@@ -17,6 +17,10 @@ def home(request):
     buildings = Building.objects.all()
     return render(request,'home.html',{'buildings':buildings})
 
+def review(request):
+    buildings = Building.objects.all()
+    return render(request,'review_buildings.html',{'buildings':buildings})
+
 def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
@@ -49,7 +53,7 @@ class AdvancedSearchView(TemplateView):
 	template_name = 'advanced_search.html'
 def search(request):
 	template = 'results.html'
-	
+
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
@@ -71,7 +75,7 @@ class SuccessView(TemplateView):
 
 def advanced_search(request):
 	template = 'results.html'
-	
+
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
@@ -167,6 +171,11 @@ def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eve
 		review.save()
 		return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
 
+def toggle_building_published(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	building.approved = not building.approved
+	building.save()
+	return redirect(reverse('housing:review'))
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
@@ -193,4 +202,3 @@ class EditBuilding(UpdateView):
 	model=Building
 	fields=['name','address']
 	success_url = reverse_lazy('housing:index')
-	
