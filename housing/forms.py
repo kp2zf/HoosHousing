@@ -66,14 +66,16 @@ class ReviewForm(forms.Form):
 		(5, '5'),
 	)
 	rating = forms.TypedChoiceField(choices=rating_choices, coerce=int)
-	name = forms.CharField(label='Your name:', max_length=100)
+	# name = forms.CharField(label='Your name:', max_length=100)
+	header = forms.CharField(label='Your header: What\'s most important to know about this building?', max_length=100)
 	review_text = forms.CharField(label='Enter your review text:', max_length=1000)
 
-	def save(self, building):
-		name = self.cleaned_data['name']
+	def save(self, building, name):
+		# name = self.cleaned_data['name']
 		rating = self.cleaned_data['rating']
 		review_text = self.cleaned_data['review_text']
-		review = Review(building=building, rating=rating, name=name, review_text=review_text)
+		header = self.cleaned_data['header']
+		review = Review(building=building, rating=rating, name=name, review_text=review_text, header=header)
 		review.date = timezone.now()
 		review.save()
 		return review

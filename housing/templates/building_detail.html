@@ -64,7 +64,8 @@
   {% for review in reviews %}
   <ul>
     <li> Rating: {{review.rating }}</li>
-    <li>Reviewer Name: {{review.name}}</li>
+    <h3>"{{review.header}}"</h3>
+    <li>Reviewer: {{review.name}}</li>
     <li>{{review.review_text}}</li>
     <li>{{review.helpful_score}} users found this review helpful.</li>
     <script>var has_voted = False</script>

@@ -80,7 +80,7 @@ def add_review(request, pk):
 	if request.method == 'POST':
 		form = ReviewForm(request.POST)
 		if form.is_valid():
-			form.save(building)
+			form.save(building, request.user.username)
 			return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
 	else:
 		form = ReviewForm()
