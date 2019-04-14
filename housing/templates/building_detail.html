@@ -10,7 +10,7 @@
   <a href="{% url 'housing:edit_building' pk=building.id %}">Edit Building</a>
 
   {% endif %}
-  
+
   <p> Address: {{ building.address }} </p>
   <br>
   <h5>Units available:</h5>
@@ -43,7 +43,7 @@
     {% csrf_token %}
     <input type="file" name="image">
     <button class="btn btn-success" type="submit">Upload Image</button>
-</form> 
+</form>
 {% endif %}
 <br>
 
@@ -88,8 +88,6 @@
     <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
   {% endif %}
 </div>
-
-
 
 <br>
 
