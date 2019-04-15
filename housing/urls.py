@@ -13,10 +13,18 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	# ex: /
 	path('', home, name='index'),
+    # ex: /review/
+    path('review/', views.review, name='review'),
     # ex: /search/
     path('search/', views.SearchView.as_view(), name='search'),
+    # ex: /advanced_search/
+    path('advanced_search/', views.AdvancedSearchView.as_view(), name='advanced_search'),
     # ex: /search_form/
     path('search_form/', views.search, name='search_form'),
+    # ex: /advanced_search_form/
+    path('advanced_search_form/', views.advanced_search, name='advanced_search_form'),
+    # ex: /toggle_building_published/
+    path('toggle_building_published/<int:pk>/', views.toggle_building_published, name='toggle_building_published'),
 	# ex: /add_building/
     path('add_building/', views.AddBuildingView.as_view(), name='add_building'),
     # ex: /buildings/3/
@@ -31,12 +39,12 @@ urlpatterns = [
     path('buildings/<int:pk>/<str:reviewer_name>/<str:voter_name>/<slug:sorting>/vote/', views.helpful_vote, name='helpful_vote'),
     # sorted review path
     path('buildings/<int:pk>/<slug:sorting>/', views.building_detail, name='building_detail'),
-    path('update_building/<int:pk>/', views.update_building, name='update_building'),
     path('edit/<int:pk>/',views.EditBuilding.as_view(),name="edit_building"),
-    path('myaccount/', views.myaccount, name='myaccount'),
+    path('myFavorites/', views.myFavorites, name='myFavorites'),
+    path('myReviews/', views.myReviews, name='myReviews'),
     path('logout/', views.my_logout, name="logout"),
     path('buildings/<int:pk>/favorite', views.favoriteBuilding, name='favoriteBuilding'),
-
+    path('success/',views.SuccessView.as_view(),name="success"),
 ]
 
 

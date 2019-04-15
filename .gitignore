@@ -6,6 +6,9 @@
 # Database
 db.sqlite3
 
+# Not the images!
+media/images
+
 # Popular django gitignore
 *.log
 *.pot
@@ -14,8 +17,6 @@ __pycache__/
 
 # Gitignore our database
 db.sqlite3
-# Gitignore our static media
-media
 # Gitignore our static files
 mysite/static/
 staticfiles/

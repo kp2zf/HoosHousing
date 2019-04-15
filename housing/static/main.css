@@ -1,0 +1,18 @@
+/* Default Fonts */
+@import url(https://fonts.googleapis.com/css?family=Merriweather|Quicksand);
+
+body {
+  font-family: 'Quicksand', serif !important;
+}
+.navbar {
+  font-family: 'Merriweather', serif !important;
+}
+
+/* Navbar Styling */
+#hoos-housing { */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  margin: 10px;
+}

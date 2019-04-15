@@ -11,24 +11,54 @@ from .models import Building, Review, Unit
 from multiselectfield import MultiSelectField
 
 MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
-            ('Corner','Corner'),
-            ('Rugby Road','Rugby Road'),
-            ('West Main','West Main'))
+			('Corner','Corner'),
+			('Rugby Road','Rugby Road'),
+			('West Main','West Main'))
 
 class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
-	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
-	admin=forms.CharField(required=False,widget=forms.HiddenInput())
+	neighborhood = forms.ChoiceField(choices=MY_CHOICES)
+	admin = forms.CharField(required=False,widget=forms.HiddenInput())
 	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
+	rating = forms.DecimalField(required=False,widget=forms.HiddenInput())
+	pet_allowed = forms.BooleanField(required=False)
+	is_furnished = forms.BooleanField(required=False)
+	air_conditioning = forms.BooleanField(required=False)
+	lease_length = forms.IntegerField()
+	parking = forms.BooleanField(required=False)
+	pool = forms.BooleanField(required=False)
+	gym = forms.BooleanField(required=False)
+	website_link = forms.CharField(max_length=100,required=False)
+	email = forms.CharField(max_length=100,required=False)
+	phone_number = forms.CharField(max_length=100,required=False)
 
-	def save(self,admin):
+	def save(self, admin):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
 		_neighborhood = self.cleaned_data['neighborhood']
 		_admin = admin
+		_rating = 0
+		_pet_allowed=self.cleaned_data['pet_allowed']
+		_is_furnished=self.cleaned_data['is_furnished']
+		_air_conditioning=self.cleaned_data['air_conditioning']
+		_lease_length=self.cleaned_data['lease_length']
+		_parking=self.cleaned_data['parking']
+		_pool=self.cleaned_data['pool']
+		_gym=self.cleaned_data['gym']
+		_website_link=self.cleaned_data['website_link']
+		_email=self.cleaned_data['email']
+		_phone_number=self.cleaned_data['phone_number']
+
 		is_approved=False
-		building = Building(admin=_admin,name=_name, address=_addr,neighborhood=_neighborhood)
+
+		building = Building(admin=_admin, name=_name,
+			address=_addr, neighborhood=_neighborhood,
+			pet_allowed=_pet_allowed, is_furnished=_is_furnished,
+			pool=_pool, gym=_gym,
+			air_conditioning=_air_conditioning, lease_length=_lease_length,
+			parking=_parking, website_link=_website_link,
+			email=_email, phone_number=_phone_number)
 		building.save()
 		return building
 
@@ -80,5 +110,3 @@ class ReviewForm(forms.Form):
 
 class UpdateForm(forms.Form):
 	address=forms.CharField(max_length=100)
-
-
