@@ -6,6 +6,9 @@
 # Database
 db.sqlite3
 
+# Not the images!
+media/images
+
 # Popular django gitignore
 *.log
 *.pot
