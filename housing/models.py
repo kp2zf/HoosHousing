@@ -70,6 +70,7 @@ class Review(models.Model):
     date = models.DateTimeField('date published')
     rating = models.IntegerField(validators = [validate_review_rating]) #the user's rating (out of 5 stars) of the apartment
     helpful_score = models.IntegerField(default=0) #amount of users that found this review helpful
+    header = models.CharField(max_length=100)
     review_text = models.TextField()
 
 class Profile(models.Model):

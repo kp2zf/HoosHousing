@@ -68,19 +68,22 @@ class ReviewFormTest(TestCase):
 		name = 'Mr. Rogers'
 		rating = 1
 		review_text = 'This building is full of rats!'
+		header = 'Not a good building'
 		form = ReviewForm({
 			'name': name,
 			'rating': rating,
-			'review_text': review_text
+			'review_text': review_text,
+			'header': header,
 	    })
 		self.assertTrue(form.is_valid())
 		building = create_building()
 		building.save() # Django requires this since there is a relation
-		review = form.save(building)
+		review = form.save(building, name)
 		self.assertEqual(review.building, building)
 		self.assertEqual(review.name, name)
 		self.assertEqual(review.rating, rating)
 		self.assertEqual(review.review_text, review_text)
+		self.assertEqual(review.header, header)
 		self.assertIsNotNone(review.date)
 
 	def test_blank_data(self):

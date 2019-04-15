@@ -11,8 +11,97 @@
 
 <div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col">
   <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
-  <h5> {{ building.address }} </h5>
+      </div>
+      <div class="col">
+      </div>
+      <div class="col">
+        {% if building.rating == 1 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 1.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 2 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 2.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 3 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 3.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 4 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 4.5 %}
+       <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+       </h1>
+        {% elif building.rating == 5 %}
+        <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+       </h1>
+        {% endif %}
+      </div>
+    </div>
+  <div class="row">
+    <div class="col">
+      <h5> {{ building.address }} </h5>
+    </div>
+
+  </div>
+  </div>
+  <hr>
   {% if user.username == building.admin %}
   <div class="card bg-light" style="margin: 40px 0">
     <div class="card-body">
@@ -158,25 +247,85 @@
         <a class="dropdown-item" href="/buildings/{{ building.id }}/rating">Lowest rating first</a>
       </div>
       </div>
+    <br>
       {% for review in reviews %}
       <ul>
-        <li> Rating: {{review.rating }}</li>
-        <li>Reviewer Name: {{review.name}}</li>
-        <li>{{review.review_text}}</li>
-        <li>{{review.helpful_score}} users found this review helpful.</li>
-        <script>var has_voted = False</script>
+      {% if review.rating == 1 %}
+        <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 2 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 3 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 4 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 5 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+      </h3>
+      {% endif %}
+        <h6><small>Published by {{review.name}} on {{review.date}}</small></h6>
+        <h4>{{review.review_text}}</h4>
+        <h6><small>{{review.helpful_score}} users found this review helpful.</small></h6>
         {% if user.is_authenticated %}
             {% if review not in upvoted_reviews %}
               {% if user.username != building.admin %}
-                <li>
-                  <a href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}">I found this helpful</a>
-                </li>
+                <h6>
+                  <a class="btn btn-success" href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}" role="button">I found this helpful</a>
+                </h6>
               {% endif %}
+            {% else %}
+                <h6>
+                  <a class="btn btn-danger" href="{% url 'housing:helpful_vote' pk=building.id reviewer_name=review.name voter_name=user.username sorting=sorting%}" role="button">I no longer find this helpful</a>
+                </h6>
             {% endif %}
         {% else %}
         <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:building_detail' pk=building.id %}">Log in to vote on reviews!</a><br>
         {% endif %}
       </ul>
+    <br>
       {% endfor %}
     {% else %}
       <p> No reviews available at this time.</p>
