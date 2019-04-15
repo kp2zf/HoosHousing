@@ -16,10 +16,12 @@ class BuildingFormTest(TestCase):
 			'name': name,
 			'address': addr,
 			'admin': 'jm8wx',
-			'neighborhood': 'Rugby Road'
+			'neighborhood': 'Rugby Road',
+			'lease_length': 12
 	    })
+		print('errors:', form.errors)
 		self.assertTrue(form.is_valid())
-		building = form.save()
+		building = form.save('jm8wx')
 		self.assertEqual(building.name, name)
 		self.assertEqual(building.address, addr)
 
