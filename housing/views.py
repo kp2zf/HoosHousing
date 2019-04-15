@@ -51,12 +51,11 @@ class AddBuildingView(FormView):
 
 def upload_building_image(request, pk=None):
 	building = get_object_or_404(Building, pk=pk)
-	print('post', request.POST, 'files', request.FILES)
 	form = BuildingImageForm(request.POST, request.FILES)
 	if form.is_valid():
 		print('form is valid!', form)
 		form.save(building)
-	return redirect('/')
+	return redirect(reverse('housing:building_detail', kwargs={'pk': building.id}))
 
 class SearchView(TemplateView):
 	template_name = 'search.html'
@@ -134,9 +133,8 @@ def advanced_search(request):
 	else:
 		bedroom_query=search_query
 
-
 	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
-	return render(request, 'advanced_search.html',{'buildings':buildings, 'isSearchResult': True})
+	return render(request, 'advanced_search.html', {'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
 	template_name = 'add_unit.html'
@@ -151,7 +149,7 @@ class AddUnitView(TemplateView):
 		building = get_object_or_404(Building, pk=pk)
 		if unit_form.is_valid():
 			unit_form.save(building)
-			return render(request,'building_detail.html',{'building':building })
+			return redirect(reverse('housing:building_detail', kwargs={'pk': building.id}))
 		return render(request, 'add_unit.html', args)
 
 def add_review(request, pk):
