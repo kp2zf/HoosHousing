@@ -129,7 +129,7 @@ def advanced_search(request):
 	air_condition_query=request.GET.get('air_condition')
 	if(air_condition_query=="True"):
 		air_condition_query=Q(air_conditioning=True)
-	elif(furnished_query=="False"):
+	elif(air_condition_query=="False"):
 		air_condition_query=Q(air_conditioning=False)
 	else:
 		air_condition_query=search_query
