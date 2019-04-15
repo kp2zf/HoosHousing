@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" />
+		<h3>Your Favorites</h3>
+		{% if buildings %}
+			{%for building in buildings%}
+			{% if user in building.favorites.all %}
+	    	<div>
+		        <a href="{% url 'housing:building_detail' building.id %}">
+		        <h3>{{ building.name }}</h3>
+		        </a>
+		        <p>Address: {{ building.address }}</p>
+			</div>
+			{%endif%}
+			{%endfor%}
+
+		{% else %}
+			No buildings found. Go favorite some!
+		{% endif %}
+
+
+{% endif %}
+
+
+{% endblock %}

@@ -41,8 +41,8 @@ class Building(models.Model):
     phone_number=models.CharField(max_length=100)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
+    favorites = models.ManyToManyField(User, blank=True)
     rating=models.DecimalField(null=True,max_digits=3,decimal_places=2)
-
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 
