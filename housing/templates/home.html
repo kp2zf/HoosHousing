@@ -7,17 +7,7 @@
 	{% if buildings %}
 		{% for building in buildings %}
 		{% if building.approved %}
-		<div class="card" style="width: 18rem;">
-			<img class="card-img-top" src="{{ building.get_image_url }}" alt="Card image cap">
-			<div class="card-body">
-				<div class="card-title">
-	        <a href="{% url 'housing:building_detail' building.id %}">
-	        {{ building.name }}
-	        </a>
-				</div>
-	        <p class="card-text">Address: {{ building.address }}</p>
-				</div>
-			</div>
+			{% include 'building_card.html' with building=building %}
 		{% endif %}
 		{% endfor %}
 
