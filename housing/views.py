@@ -18,8 +18,11 @@ def home(request):
 	return render(request,'home.html',{'buildings':buildings})
 
 def review(request):
-	buildings = Building.objects.all()
-	return render(request,'review_buildings.html',{'buildings':buildings})
+	if request.user.is_superuser:
+		buildings = Building.objects.all()
+		return render(request,'review_buildings.html',{'buildings':buildings})
+	else:
+		return render(request, 'permission_error.html')
 
 def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
@@ -143,26 +146,23 @@ class AddUnitView(TemplateView):
 	success_url = reverse_lazy('housing:add_unit')
 
 	def get(self, request, pk=None):
-		form = UnitForm()
-		return render(request, 'add_unit.html', {'form': form})
-
-<<<<<<< HEAD
-    def post(self, request, pk=None):
-        unit_form = UnitForm(request.POST)
-        building = get_object_or_404(Building, pk=pk)
-        if unit_form.is_valid():
-            unit_form.save(building)
-            return redirect(reverse('housing:building_detail',kwargs={'pk':pk }))
-        return render(request, 'add_unit.html', args)
-=======
-	def post(self, request, pk=None):
-		unit_form = UnitForm(request.POST)
 		building = get_object_or_404(Building, pk=pk)
-		if unit_form.is_valid():
-			unit_form.save(building)
-			return render(request,'building_detail.html',{'building':building })
+		if request.user.username == building.admin:
+			form = UnitForm()
+			return render(request, 'add_unit.html', {'form': form})
+		else:
+			return render(request, 'permission_error.html')
+
+	def post(self, request, pk=None):
+		building = get_object_or_404(Building, pk=pk)
+		if request.user.username == building.admin:
+			unit_form = UnitForm(request.Post)
+			if unit_form.is_valid():
+				unit_form.save(building)
+				return redirect(reverse('housing:building_detail',kwargs={'pk':pk}))
+		else:
+			return render(request, 'permission_error.html')
 		return render(request, 'add_unit.html', args)
->>>>>>> 3efda7380a01d6dc20a2e2541df14c7b6f430417
 
 def add_review(request, pk):
 	building = get_object_or_404(Building, pk=pk)
@@ -179,6 +179,8 @@ def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eve
 	#need to add sorting so page refreshes to same sorting option that was selected before
 	building = get_object_or_404(Building, pk=pk)
 	review = Review.objects.get(building=building, name=reviewer_name)
+	if not request.user.is_authenticated:
+		return render(request, 'login.html')
 	try:
 		vote = Vote.objects.get(review=review, username=voter_name)
 		vote.delete()
@@ -193,10 +195,13 @@ def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eve
 		return redirect(reverse('housing:building_detail', kwargs={'pk':pk, 'sorting':sorting}))
 
 def toggle_building_published(request, pk):
-	building = get_object_or_404(Building, pk=pk)
-	building.approved = not building.approved
-	building.save()
-	return redirect(reverse('housing:review'))
+	if request.user.is_superuser:
+		building = get_object_or_404(Building, pk=pk)
+		building.approved = not building.approved
+		building.save()
+		return redirect(reverse('housing:review'))
+	else:
+		return render(request, 'permission_error.html')
 
 def update_building(request, pk):
 	building = get_object_or_404(Building, pk=pk)
