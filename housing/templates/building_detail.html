@@ -21,7 +21,7 @@
     {% else %}
   <a href="{% url 'housing:favoriteBuilding' building.id %}"><i class="far fa-heart" style="color:red"></i></a>
     {% endif %}
-  {% endif %}      
+  {% endif %}
   </h1>
       </div>
       <div class="col-md-4">
@@ -125,13 +125,7 @@
 
   <div class="row">
     <div class="col-6">
-      {% if building.image %}
-      <img src="{{ building.image.url }}" class="img-fluid" />
-      {% else %}
-      <img src="/files/default-building.png" class="img-fluid" />
-      {% endif %}
-      {% if user.username == building.admin %}
-      {% endif %}
+      <img src="{{ building.get_image_url }}" class="img-fluid" />
     </div>
     <div class="col-6 text-center">
       {% if building.pet_allowed %}
