@@ -15,6 +15,7 @@
     <div class="row">
       <div class="col">
   <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
+
       </div>
       <div class="col">
       </div>
@@ -102,8 +103,9 @@
   </div>
   </div>
   <hr>
+
   {% if user.username == building.admin %}
-  <div class="card bg-light" style="margin-bottom: 20px">
+  <div class="card bg-light" style="margin: 40px 0">
     <div class="card-body">
       <h3> Admin Panel </h3>
       <a class="btn btn-info" href="{% url 'housing:edit_building' pk=building.id %}" style="margin-bottom:16px">Edit Information for {{building.name}}</a>

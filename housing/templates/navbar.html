@@ -16,11 +16,19 @@
           Search
         </a>
       </li>
-      <li {% if "/myaccount" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-        <a class="nav-link" href="{% url 'housing:myaccount' %}">
-          My Account
+      {% if user.is_authenticated %}
+        <li {% if "/myaccount" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'housing:myaccount' %}">
+            My Account
+          </a>
+        </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}">
+          Log In
         </a>
       </li>
+      {% endif %}
       {% if user.is_superuser %}
       <li {% if "/review" in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
         <a class="nav-link" href="{% url 'housing:review' %}">

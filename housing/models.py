@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import User
@@ -41,8 +42,12 @@ class Building(models.Model):
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
     rating=models.DecimalField(null=True,max_digits=3,decimal_places=2)
+
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
+
+    def get_absolute_url(self):
+    	return reverse('housing:building_detail', kwargs={'pk': self.id })
 
 # Each Unit represents a subsection of a Building that is rentable.
 # The monthly rent of a Unit represents the total rent in US Dollars
@@ -75,4 +80,3 @@ class Vote(models.Model):
     # building = models.ForeignKey(Building, on_delete=models.CASCADE)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
-

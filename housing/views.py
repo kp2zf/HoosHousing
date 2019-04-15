@@ -1,16 +1,17 @@
-from django.contrib.auth import logout
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.db.models import Q
-from django.views.generic import FormView, TemplateView
-from django.shortcuts import render
+
+from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from django.db.models import Q
+from django.views.generic import FormView, TemplateView
+
 from django.views.generic.edit import UpdateView
-from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm, UpdateForm
+
+from .forms import BuildingForm, BuildingImageForm, ReviewForm, UnitForm
 from .models import Building, Unit, Review, Vote
 
 def home(request):
@@ -55,18 +56,16 @@ class AddBuildingView(FormView):
 	def form_valid(self, form):
 		# This method is called when valid form data has been POSTed.
 		# It should return an HttpResponse.
-		print('add_form form valid')
-		form.save(admin=self.request.user.username)
+		form.save(self.request.user.username)
 		return super().form_valid(form)
 
 def upload_building_image(request, pk=None):
 	building = get_object_or_404(Building, pk=pk)
-	print('post', request.POST, 'files', request.FILES)
 	form = BuildingImageForm(request.POST, request.FILES)
 	if form.is_valid():
 		print('form is valid!', form)
 		form.save(building)
-	return redirect('/')
+	return redirect(reverse('housing:building_detail', kwargs={'pk': building.id}))
 
 class SearchView(TemplateView):
 	template_name = 'search.html'
@@ -102,7 +101,7 @@ def advanced_search(request):
 	bedroom_query = request.GET.get('bedrooms')
 
 	search_query=Q(name__icontains=search_query)
-	
+
 	pet_query=request.GET.get('pet_allowed')
 	if(pet_query=="True"):
 		pet_query=Q(pet_allowed=True)
@@ -134,7 +133,7 @@ def advanced_search(request):
 		air_condition_query=Q(air_conditioning=False)
 	else:
 		air_condition_query=search_query
-	
+
 	if(neighborhood_query!=""):
 		neighborhood_query=Q(neighborhood__icontains=neighborhood_query)
 	else:
@@ -144,9 +143,8 @@ def advanced_search(request):
 	else:
 		bedroom_query=search_query
 
-	
 	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
-	return render(request, 'advanced_search.html',{'buildings':buildings, 'isSearchResult': True})
+	return render(request, 'advanced_search.html', {'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
 	template_name = 'add_unit.html'
@@ -169,6 +167,7 @@ class AddUnitView(TemplateView):
 				return redirect(reverse('housing:building_detail',kwargs={'pk':pk}))
 		else:
 			return render(request, 'permission_error.html')
+
 		return render(request, 'add_unit.html', args)
 
 def add_review(request, pk):
@@ -210,17 +209,6 @@ def toggle_building_published(request, pk):
 	else:
 		return render(request, 'permission_error.html')
 
-def update_building(request, pk):
-	building = get_object_or_404(Building, pk=pk)
-	if request.method == 'POST':
-		form=UpdateForm(request.POST)
-		if form.is_valid():
-			building.address=form.cleaned_data['address']
-			building.save()
-	else:
-		form=UpdateForm()
-	return redirect(reverse('housing:building_detail', kwargs={'pk': pk}))
-
 def myaccount(request):
 	if request.user.is_authenticated:
 		reviews = Review.objects.filter(Q(name=request.user.username))
@@ -233,7 +221,6 @@ def my_logout(request):
 
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
-	model=Building
-	fields=['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
+	model = Building
+	fields = ['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
 			'parking','pool','gym','neighborhood','website_link','email','phone_number']
-	success_url = reverse_lazy('housing:index')
