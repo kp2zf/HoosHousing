@@ -1,17 +1,84 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-		<h3>Your Reviews</h3>
-		{% for review in reviews %}
-    		<div>
-       		<ul>
-    			<li>Rating: {{review.rating }}</li>
-    			<li>Reviewer Name: {{review.name}}</li>
-   			 	<li>{{review.review_text}}</li>
-				<li>{{review.helpful_score}} users found this review helpful.</li>
-  			</ul>
-    		</div>
-		{% endfor %}
+		<div class="row">
+  <div class="col">
+    <h4>Your Reviews:</h4>
+    {% if reviews %}
+
+    <br>
+      {% for review in reviews %}
+	  <h6>Review for {{review.building}}</h6>
+      <ul>
+      {% if review.rating == 1 %}
+        <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 2 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 3 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 4 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+        </h3>
+      {% elif review.rating == 5 %}
+      <h3>
+      <div class="row">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        &nbsp "{{review.header}}"
+      </div>
+      </h3>
+      {% endif %}
+        <h6><small>Published by {{review.name}} on {{review.date}}</small></h6>
+        <h4>{{review.review_text}}</h4>
+        <h6><small>{{review.helpful_score}} users found this review helpful.</small></h6>
+      </ul>
+    <br>
+      {% endfor %}
+    {% else %}
+      <p> No reviews available at this time.</p>
+    {% endif %}
+  </div>
+</div>
+<br>
+
 {% endif %}
 
 
