@@ -4,6 +4,9 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+	{% if user.username == building.admin %}
+
 <h3>Edit Building </h3>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -15,5 +18,10 @@
 		<br>
     <input type="submit" class="btn btn-success" value="Submit">
 </form>
+	{% endif %}
+{% else %}
+<h3>You don't have the necessary permissions to access this page.</h3>
 
+<a href="{% url 'housing:index'%}">Return to the homepage</a>
+{% endif %}
 {% endblock %}
