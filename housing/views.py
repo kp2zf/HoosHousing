@@ -163,7 +163,7 @@ class AddUnitView(TemplateView):
 	def post(self, request, pk=None):
 		building = get_object_or_404(Building, pk=pk)
 		if request.user.username == building.admin:
-			unit_form = UnitForm(request.Post)
+			unit_form = UnitForm(request.POST)
 			if unit_form.is_valid():
 				unit_form.save(building)
 				return redirect(reverse('housing:building_detail',kwargs={'pk':pk}))
@@ -181,6 +181,11 @@ def add_review(request, pk):
 	else:
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
+
+def EditReview(request, pk):
+	building = get_object_or_404(Building, pk=pk)
+	reviews = building.review_set.all()
+
 
 def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eventually change name to userid
 	#need to add sorting so page refreshes to same sorting option that was selected before

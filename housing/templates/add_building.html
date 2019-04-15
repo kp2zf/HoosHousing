@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+
 <h3>Submit information about your building!</h3>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -15,5 +17,10 @@
 		<br>
     <input type="submit" class="btn btn-success" value="Submit a building">
 </form>
+
+{% else %}
+<h3>You must be logged in to add a building.</h3>
+    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Log in with Google</a><br>
+{% endif %}
 
 {% endblock %}
