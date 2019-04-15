@@ -3,18 +3,13 @@
 
 <h3> Housing List </h3>
 
-<div>
+<div class="row building-row">
 	{% if buildings %}
-		{%for building in buildings%}
-		{%if building.approved%}
-	    <div>
-	        <a href="{% url 'housing:building_detail' building.id %}">
-	        <h3>{{ building.name }}</h3>
-	        </a>
-	        <p>Address: {{ building.address }}</p>
-		</div>
-		{%endif%}
-		{%endfor%}
+		{% for building in buildings %}
+		{% if building.approved %}
+			{% include 'building_card.html' with building=building %}
+		{% endif %}
+		{% endfor %}
 
 	{% else %}
 		No buildings found. Want to <a href="{% url 'housing:add_building' %}">add one</a>?

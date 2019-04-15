@@ -129,7 +129,7 @@ def advanced_search(request):
 	air_condition_query=request.GET.get('air_condition')
 	if(air_condition_query=="True"):
 		air_condition_query=Q(air_conditioning=True)
-	elif(furnished_query=="False"):
+	elif(air_condition_query=="False"):
 		air_condition_query=Q(air_conditioning=False)
 	else:
 		air_condition_query=search_query
@@ -171,6 +171,10 @@ class AddUnitView(TemplateView):
 
 def add_review(request, pk):
 	building = get_object_or_404(Building, pk=pk)
+	reviews = building.review_set.all()
+	for review in reviews:
+		if review.name == request.user.username:
+			review.delete()
 	if request.method == 'POST':
 		form = ReviewForm(request.POST)
 		if form.is_valid():
@@ -179,11 +183,6 @@ def add_review(request, pk):
 	else:
 		form = ReviewForm()
 	return render(request, 'add_review.html', {'form': form})
-
-def EditReview(request, pk):
-	building = get_object_or_404(Building, pk=pk)
-	reviews = building.review_set.all()
-
 
 def helpful_vote(request, pk, reviewer_name, voter_name, sorting= '-date'): #eventually change name to userid
 	#need to add sorting so page refreshes to same sorting option that was selected before

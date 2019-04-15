@@ -16,3 +16,9 @@ body {
   color: white;
   margin: 10px;
 }
+
+/* Homepage */
+.building-row {}
+.building-card {
+  margin: 5px;
+}
