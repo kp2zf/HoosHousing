@@ -46,6 +46,8 @@ class Building(models.Model):
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 
+    def get_image_url(self):
+        return self.image.url if self.image else '/files/default-building.png'
     def get_absolute_url(self):
     	return reverse('housing:building_detail', kwargs={'pk': self.id })
 
