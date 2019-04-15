@@ -18,22 +18,22 @@ MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
 class BuildingForm(forms.Form):
 	name = forms.CharField()
 	address = forms.CharField()
-	neighborhood=forms.ChoiceField(choices=MY_CHOICES)
-	admin=forms.CharField(required=False,widget=forms.HiddenInput())
+	neighborhood = forms.ChoiceField(choices=MY_CHOICES)
+	admin = forms.CharField(required=False,widget=forms.HiddenInput())
 	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
-	rating=forms.DecimalField(required=False,widget=forms.HiddenInput())
-	pet_allowed= forms.BooleanField(required=False)
-	is_furnished=forms.BooleanField(required=False)
-	air_conditioning=forms.BooleanField(required=False)
-	lease_length=forms.IntegerField()
-	parking=forms.BooleanField(required=False)
-	pool=forms.BooleanField(required=False)
-	gym=forms.BooleanField(required=False)
-	website_link=forms.CharField(max_length=100,required=False)
-	email=forms.CharField(max_length=100,required=False)
-	phone_number=forms.CharField(max_length=100,required=False)
+	rating = forms.DecimalField(required=False,widget=forms.HiddenInput())
+	pet_allowed = forms.BooleanField(required=False)
+	is_furnished = forms.BooleanField(required=False)
+	air_conditioning = forms.BooleanField(required=False)
+	lease_length = forms.IntegerField()
+	parking = forms.BooleanField(required=False)
+	pool = forms.BooleanField(required=False)
+	gym = forms.BooleanField(required=False)
+	website_link = forms.CharField(max_length=100,required=False)
+	email = forms.CharField(max_length=100,required=False)
+	phone_number = forms.CharField(max_length=100,required=False)
 
-	def save(self,admin):
+	def save(self, admin):
 		_name = self.cleaned_data['name']
 		_addr = self.cleaned_data['address']
 		_neighborhood = self.cleaned_data['neighborhood']
@@ -106,6 +106,3 @@ class ReviewForm(forms.Form):
 		review.date = timezone.now()
 		review.save()
 		return review
-
-class UpdateForm(forms.Form):
-	address=forms.CharField(max_length=100)
