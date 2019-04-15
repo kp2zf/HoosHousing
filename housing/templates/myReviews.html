@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+		<h3>Your Reviews</h3>
+		{% for review in reviews %}
+    		<div>
+       		<ul>
+    			<li>Rating: {{review.rating }}</li>
+    			<li>Reviewer Name: {{review.name}}</li>
+   			 	<li>{{review.review_text}}</li>
+				<li>{{review.helpful_score}} users found this review helpful.</li>
+  			</ul>
+    		</div>
+		{% endfor %}
+{% endif %}
+
+
+{% endblock %}

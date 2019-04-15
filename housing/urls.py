@@ -40,8 +40,10 @@ urlpatterns = [
     # sorted review path
     path('buildings/<int:pk>/<slug:sorting>/', views.building_detail, name='building_detail'),
     path('edit/<int:pk>/',views.EditBuilding.as_view(),name="edit_building"),
-    path('myaccount/', views.myaccount, name='myaccount'),
+    path('myFavorites/', views.myFavorites, name='myFavorites'),
+    path('myReviews/', views.myReviews, name='myReviews'),
     path('logout/', views.my_logout, name="logout"),
+    path('buildings/<int:pk>/favorite', views.favoriteBuilding, name='favoriteBuilding'),
     path('success/',views.SuccessView.as_view(),name="success"),
 ]
 

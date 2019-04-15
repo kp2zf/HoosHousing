@@ -213,11 +213,17 @@ def toggle_building_published(request, pk):
 	else:
 		return render(request, 'permission_error.html')
 
-def myaccount(request):
+def myFavorites(request):
+	if request.user.is_authenticated:
+		buildings = Building.objects.all()
+		return render(request, 'myFavorites.html', {'buildings': buildings})
+	return render(request, 'myFavorites.html')
+
+def myReviews(request):
 	if request.user.is_authenticated:
 		reviews = Review.objects.filter(Q(name=request.user.username))
-		return render(request, 'myaccount.html', {'reviews':reviews})
-	return render(request,'myaccount.html')
+		return render(request, 'myReviews.html', {'reviews': reviews})
+	return render(request, 'myReviews.html')
 
 def my_logout(request):
 	logout(request)
@@ -228,3 +234,15 @@ class EditBuilding(UpdateView):
 	model = Building
 	fields = ['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
 			'parking','pool','gym','neighborhood','website_link','email','phone_number']
+	success_url = reverse_lazy('housing:index')
+
+def favoriteBuilding(request, pk):
+	url = request.META.get('HTTP_REFERER')
+
+	b = get_object_or_404(Building, pk=pk)
+	if request.user in b.favorites.all():
+		b.favorites.remove(request.user)
+	else:
+		b.favorites.add(request.user)
+
+	return HttpResponseRedirect(url)
