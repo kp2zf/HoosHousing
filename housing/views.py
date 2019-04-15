@@ -28,12 +28,19 @@ def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
 	reviews = reviews.order_by(sorting)
+	rating_sum = 0
+	rating_count = 0
 	upvoted_reviews = [] # the reviews that have already been upvoted by this user
 	for review in reviews:
+		rating_sum += review.rating
+		rating_count += 1
 		votes = review.vote_set.all()
 		voted_users = [vote.username for vote in votes]
 		if request.user.username in voted_users:
 			upvoted_reviews.append(review)
+	if rating_count > 0:
+		building.rating = rating_sum / rating_count
+		building.rating = round(building.rating * 2.0) / 2.0
 	return render(request, 'building_detail.html', {
 		'building':building,
 		'reviews':reviews,
@@ -223,6 +230,7 @@ def myaccount(request):
 def my_logout(request):
 	logout(request)
 	return redirect(reverse('housing:index'))
+
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
 	model=Building

@@ -11,8 +11,96 @@
 
 <div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col">
   <h1>{{ building.name }} <span class="badge badge-primary" style="margin-left: 5px">New</span></h1>
-  <h5> {{ building.address }} </h5>
+      </div>
+      <div class="col">
+      </div>
+      <div class="col">
+        {% if building.rating == 1 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 1.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 2 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 2.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 3 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 3.5 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 4 %}
+          <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+          </h1>
+        {% elif building.rating == 4.5 %}
+       <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+       </h1>
+        {% elif building.rating == 5 %}
+        <h1>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+       </h1>
+        {% endif %}
+      </div>
+    </div>
+  <div class="row">
+    <div class="col">
+      <h5> {{ building.address }} </h5>
+    </div>
+
+  </div>
+  </div>
   <hr>
   {% if user.username == building.admin %}
   <div class="card bg-light" style="margin-bottom: 20px">
@@ -170,7 +258,7 @@
         <i class="far fa-star"></i>
         <i class="far fa-star"></i>
         <i class="far fa-star"></i>
-        "{{review.header}}"
+        &nbsp "{{review.header}}"
       </div>
         </h3>
       {% elif review.rating == 2 %}
@@ -181,7 +269,7 @@
         <i class="far fa-star"></i>
         <i class="far fa-star"></i>
         <i class="far fa-star"></i>
-        "{{review.header}}"
+        &nbsp "{{review.header}}"
       </div>
         </h3>
       {% elif review.rating == 3 %}
@@ -192,7 +280,7 @@
         <i class="fas fa-star"></i>
         <i class="far fa-star"></i>
         <i class="far fa-star"></i>
-        "{{review.header}}"
+        &nbsp "{{review.header}}"
       </div>
         </h3>
       {% elif review.rating == 4 %}
@@ -203,7 +291,7 @@
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
         <i class="far fa-star"></i>
-        "{{review.header}}"
+        &nbsp "{{review.header}}"
       </div>
         </h3>
       {% elif review.rating == 5 %}
@@ -214,7 +302,7 @@
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
-        "{{review.header}}"
+        &nbsp "{{review.header}}"
       </div>
       </h3>
       {% endif %}
