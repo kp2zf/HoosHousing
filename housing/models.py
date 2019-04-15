@@ -33,6 +33,7 @@ class Building(models.Model):
     neighborhood = MultiSelectField(choices=MY_CHOICES, null=True)
     approved = models.BooleanField(null=True, blank=True)
     admin = models.CharField(max_length=100,null=True, blank=True)
+    favorites = models.ManyToManyField(User, blank=True)
     def __str__(self):
         return '{} ({})'.format(self.name, self.address)
 

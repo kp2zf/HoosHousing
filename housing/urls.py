@@ -35,6 +35,8 @@ urlpatterns = [
     path('edit/<int:pk>/',views.EditBuilding.as_view(),name="edit_building"),
     path('myaccount/', views.myaccount, name='myaccount'),
     path('logout/', views.my_logout, name="logout"),
+    path('buildings/<int:pk>/favorite', views.favoriteBuilding, name='favoriteBuilding'),
+
 ]
 
 

@@ -47,6 +47,20 @@
 {% endif %}
 <br>
 
+{% if user.is_authenticated %}
+  <a href="{% url 'housing:favoriteBuilding' building.id %}">
+    {% if user in building.favorites.all %}
+    unfavorite
+    {% else %}
+    favorite
+    {% endif %}
+  </a>
+  <span class = "badge badge-notify">
+    {{ building.favorites.count }}
+  </span>
+{% endif %}
+
+
 <div>
   <h5>Reviews:</h5>
   {% if building.review_set.all %}
@@ -63,6 +77,7 @@
   </div>
   {% for review in reviews %}
   <ul>
+    <li>{{review.building}}</li>
     <li> Rating: {{review.rating }}</li>
     <li>Reviewer Name: {{review.name}}</li>
     <li>{{review.review_text}}</li>
