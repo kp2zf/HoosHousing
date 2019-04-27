@@ -31,3 +31,24 @@
 .building-img {
   border-radius: 5px;
 }
+
+.review-vote-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 8px;
+  font-size: 24px;
+}
+
+#review-vote-btn-disabled {
+    color: gray !important;
+    cursor: default;
+}
+
+.upvote {
+  color: gray;
+}
+
+.de-upvote {
+  color: orange;
+}

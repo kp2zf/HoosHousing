@@ -28,21 +28,17 @@
   <button type="submit" class="btn btn-primary mb-2">Search</button>
 </form>
 <a href="{% url 'housing:advanced_search' %}">Advanced Search</a>
-
-{% if isSearchResult %}
-  <div class="row">
-    {% if buildings %}
-
-    {% for building in buildings %}
-    {%if building.approved%}
-      {% include 'building_card.html' with building=building %}
-    {%endif%}
-    {% endfor %}
-
-    {% else %}
-    <p>No results for this search. Want to <a href="{% url 'housing:add_building' %}">add a building</a>?</p>
-    {% endif %}
-  </div>
-{% endif %}
-
+  {% if isSearchResult %}
+    <div class="row">
+      {% if buildings %}
+        {% for building in buildings %}
+        {% if building.approved %}
+          {% include 'building_card.html' with building=building %}
+        {% endif %}
+        {% endfor %}
+      {% else %}
+      <p>No results for this search. Want to <a href="{% url 'housing:add_building' %}">add a building</a>?</p>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endblock %}
