@@ -16,6 +16,11 @@
           Search
         </a>
       </li>
+      <li>
+        <a class="nav-link" href="{% url 'housing:add_building' %}">
+          Add a Building
+        </a>
+      </li>
       {% if user.is_authenticated %}
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
