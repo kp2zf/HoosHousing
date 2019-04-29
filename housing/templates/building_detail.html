@@ -192,7 +192,7 @@
         <div class="row">
           {% if building.website_link %}
             <i class="contact-icon fas fa-desktop"></i>
-            <a href="{{building.website_link}}">{{building.website_link}}</a>
+            <a id="building-link" href="{{building.website_link}}" target="_blank">{{building.name}}</a>
             <br>
           {% endif %}
         </div>
@@ -284,5 +284,19 @@
     </div>
   </div>
 </div>
+
+<script>
+  function fixBuildingLink() {
+    let link = $('#building-link').attr('href');
+    let http = 'http://';
+    let https = 'https://';
+
+    if(!(link.includes(http) || link.includes(https))) {
+      link = http + link;
+      $('#building-link').attr('href', link);
+    }
+  }
+  $(document).ready(fixBuildingLink);
+</script>
 
 {% endblock %}
