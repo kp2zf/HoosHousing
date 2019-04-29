@@ -47,7 +47,7 @@ def building_detail(request, pk=None, sorting= '-date'):
 		building.rating = rating_sum / rating_count
 		building.rating = round(building.rating * 2.0) / 2.0
 	for unit in units:
-		unit_prices.append(unit.monthly_rent)
+		unit_prices.append(unit.rent_per_person)
 	unit_prices.sort()
 	if len(unit_prices) > 0:
 		min_price = unit_prices[0]
