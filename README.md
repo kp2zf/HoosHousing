@@ -23,7 +23,7 @@ This is the page where you can favorite the building by clicking the heart next 
 ### Reviews
 Reviews for each building can be found at the bottom of its building detail page. You can sort these reviews by most recent, most helpful, highest rating, and lowest rating by clicking the "Sort by" dropdown menu. You can upvote reviews you find helpful by clicking the arrow to the left of each review. It will turn yellow when you have upvoted it. Click on the arrow again to undo your upvote. The number of people who have upvoted appears below the arrow.
 
-You can also add your own review by clicking the "Leave a review" button. Enter your rating, a title for the review, and the review text and hit submit. Your review will automatically appear on the page. You can view all the reviews you have submitted by clicking the dropdown menu in the top right of the NavBar that has your name as the title. "Reviews" is an option in the list.
+You can also add your own review by clicking the "Leave a review" button below all of the reviews. Enter your rating, a title for the review, and the review text and hit submit. Your review will automatically appear on the page. You can view all the reviews you have submitted by clicking the dropdown menu in the top right of the NavBar that has your name as the title. "Reviews" is an option in the list.
 
 ## Review Buildings
 If you are an admin, you have the ability to review buildings using the "Review Buildings" tab in the NavBar. From here you can publish and unpublish current buildings. Unpublished buildings do not show up on the home page.
