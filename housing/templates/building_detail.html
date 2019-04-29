@@ -234,6 +234,15 @@
       </div>
     <br>
     <div class="container">
+      {% if user.is_authenticated %}
+        {% if user.username != building.admin %}
+        <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
+        {% else %}
+        <p><b> Sorry, you can't leave a review for your own building. 🙂 </b></p>
+        {% endif %}
+      {% else %}
+        <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
+      {% endif %}
       {% for review in reviews %}
       <div class="row">
         <div class="container">
@@ -272,15 +281,7 @@
       {% else %}
         <p> No reviews available at this time.</p>
       {% endif %}
-      {% if user.is_authenticated %}
-        {% if user.username != building.admin %}
-        <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
-        {% else %}
-        <p><b> Sorry, you can't leave a review for your own building. 🙂 </b></p>
-        {% endif %}
-      {% else %}
-        <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'housing:add_review' pk=building.id %}">Log in to leave a review</a><br>
-      {% endif %}
+
     </div>
   </div>
 </div>
