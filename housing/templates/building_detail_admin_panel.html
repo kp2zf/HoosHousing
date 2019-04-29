@@ -1,0 +1,27 @@
+<div class="card bg-light" style="margin: 40px 0">
+  <div class="card-body">
+    <h3> Admin Panel </h3>
+    <a class="btn btn-info" href="{% url 'housing:edit_building' pk=building.id %}" style="margin-bottom:16px">Edit Information for {{building.name}}</a>
+    <h6> Upload a picture: </h6>
+    <form method="post" action={% url 'housing:upload_building_image' building.id %} enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" id="imageUploadInput">
+        <button class="btn btn-success" type="submit" id="imageUploadSubmit">Upload Image</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function disableOrEnableUploadImageButton() {
+      if ($('#imageUploadInput').val()) {
+          $('#imageUploadSubmit').attr('disabled',false);
+      } else {
+          $('#imageUploadSubmit').attr('disabled', true);
+      }
+  }
+
+$(document).ready(() => {
+        disableOrEnableUploadImageButton();
+        $('#imageUploadInput').change(disableOrEnableUploadImageButton);
+    });
+</script>
