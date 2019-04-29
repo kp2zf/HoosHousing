@@ -29,9 +29,20 @@
       </div>
     </div>
   <div class="row">
-    <div class="col">
+    <div class="col-md-8">
       <h5> {{ building.address }} </h5>
     </div>
+    {% if building.unit_set.all %}
+      {% if building.unit_set.all|length > 1 %}
+      <div class="col-md-4" style="clear: both">
+        <h4>${{ min_price }} - ${{ max_price }} / month</h4>
+      </div>
+      {% else %}
+      <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} / month</h4>
+        </div>
+      {% endif %}
+    {% endif %}
 
   </div>
   </div>
@@ -56,6 +67,10 @@
       <img src="{{ building.get_image_url }}" class="img-fluid" />
     </div>
     <div class="col-6 text-center">
+      <div class="row amenity-box">
+        <i class="amenity-icon-yes fas fa-clock"></i>
+        <p>{{ building.lease_length }} month lease</p>
+      </div>
       {% if building.pet_allowed %}
       <div class="row amenity-box">
         <i class="amenity-icon-yes fas fa-dog"></i>

@@ -29,9 +29,13 @@ def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
 	reviews = reviews.order_by(sorting)
+	units = building.unit_set.all()
 	rating_sum = 0
 	rating_count = 0
 	upvoted_reviews = [] # the reviews that have already been upvoted by this user
+	unit_prices = []
+	min_price = 0
+	max_price = 0
 	for review in reviews:
 		rating_sum += review.rating
 		rating_count += 1
@@ -42,11 +46,20 @@ def building_detail(request, pk=None, sorting= '-date'):
 	if rating_count > 0:
 		building.rating = rating_sum / rating_count
 		building.rating = round(building.rating * 2.0) / 2.0
+	for unit in units:
+		unit_prices.append(unit.monthly_rent)
+	unit_prices.sort()
+	if len(unit_prices) > 0:
+		min_price = unit_prices[0]
+		max_price = unit_prices[-1]
+
 	return render(request, 'building_detail.html', {
 		'building':building,
 		'reviews':reviews,
 		'upvoted_reviews': upvoted_reviews,
-		'sorting':sorting
+		'sorting':sorting,
+		'min_price': min_price,
+		'max_price': max_price
 		})
 
 class AddBuildingView(FormView):
@@ -242,8 +255,8 @@ def my_logout(request):
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
 	model = Building
-	fields = ['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
-			'parking','pool','gym','neighborhood','website_link','email','phone_number']
+	fields = ['name','address','neighborhood', 'lease_length','pet_allowed','is_furnished','air_conditioning',
+			'parking','pool','gym','website_link','email','phone_number']
 	success_url = reverse_lazy('housing:index')
 
 def favoriteBuilding(request, pk):
