@@ -28,10 +28,6 @@
   color: white;
 }
 
-.building-img {
-  border-radius: 5px;
-}
-
 .review-vote-btn {
   cursor: pointer;
   background: none;
