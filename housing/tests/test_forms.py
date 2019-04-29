@@ -37,17 +37,21 @@ class UnitFormTest(TestCase):
 		monthly_rent = 9000
 		square_footage = 1400
 		num_bedrooms = 11
+		num_bathrooms = 3
+		rent_per_person = 3000
 		available = True
 		form = UnitForm({
 			'monthly_rent': monthly_rent,
 			'square_footage': square_footage,
 			'num_bedrooms': num_bedrooms,
+			'num_bathrooms': num_bathrooms,
 			'available': available
 	    })
 		self.assertTrue(form.is_valid())
 		building = create_building()
 		building.save() # Django requires this since there is a relation
 		unit = form.save(building)
+		unit.rent_per_person = rent_per_person
 		self.assertEqual(unit.monthly_rent, monthly_rent)
 		self.assertEqual(unit.square_footage, square_footage)
 		self.assertEqual(unit.num_bedrooms, num_bedrooms)
@@ -60,6 +64,7 @@ class UnitFormTest(TestCase):
 	        'monthly_rent': ['This field is required.'],
 	        'square_footage': ['This field is required.'],
 	        'num_bedrooms': ['This field is required.'],
+			'num_bathrooms': ['This field is required.'],
 	    })
 
 class ReviewFormTest(TestCase):
@@ -87,10 +92,10 @@ class ReviewFormTest(TestCase):
 		self.assertIsNotNone(review.date)
 
 	def test_blank_data(self):
-	    form = UnitForm({})
+	    form = ReviewForm({})
 	    self.assertFalse(form.is_valid())
 	    self.assertEqual(form.errors, {
-	        'monthly_rent': ['This field is required.'],
-	        'square_footage': ['This field is required.'],
-	        'num_bedrooms': ['This field is required.'],
+	        'rating': ['This field is required.'],
+	        'header': ['This field is required.'],
+	        'review_text': ['This field is required.'],
 	    })
