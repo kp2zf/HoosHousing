@@ -122,7 +122,7 @@ def advanced_search(request):
 	bathroom_query = request.GET.get('bathrooms')
 	price_query=request.GET.get('price')
 	search_query=Q(name__icontains=search_query)
-
+	
 	pet_query=request.GET.get('pet_allowed')
 	if(pet_query=="True"):
 		pet_query=Q(pet_allowed=True)
@@ -168,13 +168,18 @@ def advanced_search(request):
 	else:
 		bathroom_query = search_query
 	buildings_price=[]
+	if price_query=="":
+		price_query=10000000
+	elif not price_query.isdigit():
+		return render(request, 'advanced_search.html', {'buildings':buildings_price, 'isSearchResult': True,'error':True})
+	
 	buildings = Building.objects.filter(neighborhood_query&bedroom_query&bathroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
 	for building in buildings:
 		if(building.get_min_price(price_query)):
 			buildings_price.append(building)
 
-	print(buildings_price)
-	return render(request, 'advanced_search.html', {'buildings':buildings_price, 'isSearchResult': True})
+	
+	return render(request, 'advanced_search.html', {'buildings':buildings_price, 'isSearchResult': True, 'error':False})
 
 class AddUnitView(TemplateView):
 	template_name = 'add_unit.html'

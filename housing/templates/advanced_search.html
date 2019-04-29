@@ -2,6 +2,11 @@
 {% block content %}
 <h1> Search Units </h1>
 <hr>
+{%if error%}
+<div class="alert alert-danger" role="alert">
+  Please enter Integer for Price
+</div>
+{%endif%}
 <form type="GET" action="{% url 'housing:advanced_search_form' %}" class="form-inline" style="margin: 0">
   <div class="form-group mb-2">
     <input  type="text" value="{{request.GET.search_box}}"name="search_box" class="form-control"  placeholder="Building Name" >
@@ -70,7 +75,7 @@
   <button type="submit" class="btn btn-primary mb-2">Search</button>
 </form>
 
-{% if isSearchResult %}
+{% if isSearchResult and not error %}
   <div>
     {% if buildings %}
 
