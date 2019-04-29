@@ -10,7 +10,7 @@
 
 .amenity-icon-yes {
   padding: .5em;
-  background: green;
+  background: #6495ed;
   border-radius: 999px;
   color: white;
   font-size: 1.4em;
@@ -20,7 +20,7 @@
 
 .amenity-icon-no {
   padding: .5em;
-  background: #a0a0a0;
+  background: #e0e0e0;
   border-radius: 999px;
   color: white;
   font-size: 1.4em;

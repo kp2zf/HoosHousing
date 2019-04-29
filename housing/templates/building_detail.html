@@ -142,8 +142,8 @@
   <div class="col">
     <h5>Units available:</h5>
     {% if building.unit_set.all %}
-    <div style="height:200px;overflow:auto;">
-    <table class="table">
+    <div style="max-height:200px;overflow:auto;">
+    <table class="table table-bordered table-hover table-sm">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -157,7 +157,7 @@
       <tbody>
       {% for unit in building.unit_set.all %}
       <tr>
-        <th scope="row">#</th>
+        <th scope="row">{{ forloop.counter }}</th>
         <td>{{ unit.num_bedrooms }}</td>
         <td>{{ unit.num_bathrooms }}</td>
         <td>{{ unit.square_footage }}</td>
@@ -172,7 +172,7 @@
     <p> No units to show for {{ building.name }}.</p>
     {% endif %}
     {% if user.username == building.admin %}
-    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
+    <a class="btn btn-outline-primary" href="{% url 'housing:add_unit' building.id %}">Add a unit</a>
     {% endif %}
   </div>
 </div>

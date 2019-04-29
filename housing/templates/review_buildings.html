@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if buildings %}
-<h3> Unpublished Buildings </h3>
+<h3 class="mt-3"> Unpublished Buildings </h3>
   {% for building in buildings %}
     {%if not building.approved%}
       <div class="row">
@@ -20,7 +20,7 @@
       </div>
     {% endif %}
   {% endfor %}
-<h3> Published Buildings </h3>
+<h3 class="mt-4"> Published Buildings </h3>
   {%for building in buildings%}
     {%if building.approved%}
       <div class="row">
