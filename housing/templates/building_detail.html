@@ -274,7 +274,7 @@
       {% endif %}
       {% if user.is_authenticated %}
         {% if user.username != building.admin %}
-        <a href="{% url 'housing:add_review' pk=building.id %}">Leave a review</a>
+        <a href="{% url 'housing:add_review' pk=building.id %}" class="btn btn-primary" role="button">Leave a review</a>
         {% else %}
         <p><b> Sorry, you can't leave a review for your own building. 🙂 </b></p>
         {% endif %}
