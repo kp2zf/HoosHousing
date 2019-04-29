@@ -77,6 +77,8 @@ def search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
+	bathroom_query = request.GET.get('bathrooms')
+
 	if(neighborhood_query!=""):
 		neighborhood_query=Q(neighborhood__icontains=neighborhood_query)
 	else:
@@ -85,9 +87,13 @@ def search(request):
 		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
 	else:
 		bedroom_query=Q(name__icontains=search_query)
+	if(bathroom_query!=""):
+		bathroom_query=Q(unit__num_bathrooms__icontains=bathroom_query)
+	else:
+		bathroom_query=Q(name__icontains=search_query)
 
 	search_query=Q(name__icontains=search_query)
-	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query).distinct()
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&bathroom_query&search_query).distinct()
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class SuccessView(TemplateView):
@@ -99,6 +105,7 @@ def advanced_search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
+	bathroom_query = request.GET.get('bathrooms')
 
 	search_query=Q(name__icontains=search_query)
 
@@ -142,8 +149,12 @@ def advanced_search(request):
 		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
 	else:
 		bedroom_query=search_query
+	if (bathroom_query != ""):
+		bathroom_query = Q(unit__num_bathrooms__icontains=bathroom_query)
+	else:
+		bathroom_query = search_query
 
-	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&bathroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
 	return render(request, 'advanced_search.html', {'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
