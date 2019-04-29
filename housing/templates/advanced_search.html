@@ -76,24 +76,17 @@
 </form>
 
 {% if isSearchResult and not error %}
-  <div>
-    {% if buildings %}
-
-    {% for building in buildings %}
-    {%if building.approved%}
-    <div>
-        <a href="{% url 'housing:building_detail' building.id %}">
-        <h3>{{ building.name }}</h3>
-        </a>
-        <p>Address: {{ building.address }}</p>
+  <div class="row">
+      {% if buildings %}
+        {% for building in buildings %}
+        {% if building.approved %}
+          {% include 'building_card.html' with building=building %}
+        {% endif %}
+        {% endfor %}
+      {% else %}
+      <p>No results for this search. Want to <a href="{% url 'housing:add_building' %}">add a building</a>?</p>
+      {% endif %}
     </div>
-    {%endif%}
-    {% endfor %}
-
-    {% else %}
-    <p>No results for this search. Want to <a href="{% url 'housing:add_building' %}">add a building</a>?</p>
-    {% endif %}
-  </div>
 {% endif %}
 
 {% endblock %}
