@@ -8,7 +8,17 @@
   margin: auto 12px;
 }
 
-.amenity-icon {
+.amenity-icon-yes {
+  padding: .5em;
+  background: green;
+  border-radius: 999px;
+  color: white;
+  font-size: 1.4em;
+  line-height: .75em;
+  width: 2.5em;
+}
+
+.amenity-icon-no {
   padding: .5em;
   background: #a0a0a0;
   border-radius: 999px;

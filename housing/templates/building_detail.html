@@ -58,32 +58,68 @@
     <div class="col-6 text-center">
       {% if building.pet_allowed %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-dog"></i>
+        <i class="amenity-icon-yes fas fa-dog"></i>
         <p>Allows Pets</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-dog"></i>
+        <p>Does Not Allow Pets</p>
       </div>
       {% endif %}
       {% if building.is_furnished %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-couch"></i>
-        <p>Comes With Furniture</p>
+        <i class="amenity-icon-yes fas fa-couch"></i>
+        <p>Furnished</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-couch"></i>
+        <p>Unfurnished</p>
       </div>
       {% endif %}
       {% if building.air_conditioning %}
       <div class="row amenity-box">
-          <i class="amenity-icon far fa-snowflake"></i>
+          <i class="amenity-icon-yes far fa-snowflake"></i>
           <p>Has Air Conditioning</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+          <i class="amenity-icon-no far fa-snowflake"></i>
+          <p>No Air Conditioning</p>
       </div>
       {% endif %}
       {% if building.gym %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-dumbbell"></i>
+        <i class="amenity-icon-yes fas fa-dumbbell"></i>
         <p>Onsite Gym</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-dumbbell"></i>
+        <p>No Onsite Gym</p>
       </div>
       {% endif %}
       {% if building.pool %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-swimmer"></i>
+        <i class="amenity-icon-yes fas fa-swimmer"></i>
         <p>Has Own Pool</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-swimmer"></i>
+        <p>No Pool</p>
+      </div>
+      {% endif %}
+      {% if building.parking %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-yes fas fa-car"></i>
+        <p>Parking Available</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-car"></i>
+        <p>No Parking Available</p>
       </div>
       {% endif %}
     </div>
