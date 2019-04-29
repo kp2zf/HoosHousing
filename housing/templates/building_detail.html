@@ -29,9 +29,26 @@
       </div>
     </div>
   <div class="row">
-    <div class="col">
+    <div class="col-md-8">
       <h5> {{ building.address }} </h5>
     </div>
+    {% if building.unit_set.all %}
+      {% if building.unit_set.all|length > 1 %}
+        {% if min_price == max_price %}
+        <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} / month</h4>
+        </div>
+        {% else %}
+        <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} - ${{ max_price }} / month</h4>
+        </div>
+        {% endif %}
+      {% else %}
+      <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} / month</h4>
+        </div>
+      {% endif %}
+    {% endif %}
 
   </div>
   </div>
@@ -45,40 +62,126 @@
       <img src="{{ building.get_image_url }}" class="img-fluid" />
     </div>
     <div class="col-6 text-center">
+      <div class="row amenity-box">
+        <i class="amenity-icon-yes fas fa-clock"></i>
+        <p>{{ building.lease_length }} month lease</p>
+      </div>
       {% if building.pet_allowed %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-dog"></i>
+        <i class="amenity-icon-yes fas fa-dog"></i>
         <p>Allows Pets</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-dog"></i>
+        <p>Does Not Allow Pets</p>
       </div>
       {% endif %}
       {% if building.is_furnished %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-couch"></i>
-        <p>Comes With Furniture</p>
+        <i class="amenity-icon-yes fas fa-couch"></i>
+        <p>Furnished</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-couch"></i>
+        <p>Unfurnished</p>
       </div>
       {% endif %}
       {% if building.air_conditioning %}
       <div class="row amenity-box">
-          <i class="amenity-icon far fa-snowflake"></i>
+          <i class="amenity-icon-yes far fa-snowflake"></i>
           <p>Has Air Conditioning</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+          <i class="amenity-icon-no far fa-snowflake"></i>
+          <p>No Air Conditioning</p>
       </div>
       {% endif %}
       {% if building.gym %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-dumbbell"></i>
+        <i class="amenity-icon-yes fas fa-dumbbell"></i>
         <p>Onsite Gym</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-dumbbell"></i>
+        <p>No Onsite Gym</p>
       </div>
       {% endif %}
       {% if building.pool %}
       <div class="row amenity-box">
-        <i class="amenity-icon fas fa-swimmer"></i>
+        <i class="amenity-icon-yes fas fa-swimmer"></i>
         <p>Has Own Pool</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-swimmer"></i>
+        <p>No Pool</p>
+      </div>
+      {% endif %}
+      {% if building.parking %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-yes fas fa-car"></i>
+        <p>Parking Available</p>
+      </div>
+      {% else %}
+      <div class="row amenity-box">
+        <i class="amenity-icon-no fas fa-car"></i>
+        <p>No Parking Available</p>
       </div>
       {% endif %}
     </div>
   </div>
 
   <hr>
+  <!-- Units-->
+
+<div class="row">
+  <div class="col">
+    <h5>Units available:</h5>
+    {% if building.unit_set.all %}
+    <div style="height:200px;overflow:auto;">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Number of Bedrooms</th>
+        <th scope="col">Number of Bathrooms</th>
+        <th scope="col">Square Footage</th>
+        <th scope="col">Monthly Rent (Unit)</th>
+        <th scope="col">Monthly Rent (Bedroom)</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for unit in building.unit_set.all %}
+      <tr>
+        <th scope="row">#</th>
+        <td>{{ unit.num_bedrooms }}</td>
+        <td>{{ unit.num_bathrooms }}</td>
+        <td>{{ unit.square_footage }}</td>
+        <td>${{ unit.monthly_rent }}</td>
+        <td>${{ unit.rent_per_person }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}
+    <p> No units to show for {{ building.name }}.</p>
+    {% endif %}
+    {% if user.username == building.admin %}
+    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
+    {% endif %}
+  </div>
+</div>
+
+
+<hr>
+
+<div>
+
   <div class="row">
     <div class="col-8">
       {% include 'map.html' with address=building.address %}
@@ -109,43 +212,6 @@
         </div>
       </div>
     </div>
-</div>
-<hr>
-
-<div>
-
-<!-- Units-->
-<div class="row">
-  <div class="col">
-    <h5>Units available:</h5>
-    {% if building.unit_set.all %}
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Number of Bedrooms</th>
-        <th scope="col">Square Footage</th>
-        <th scope="col">Monthly Rent</th>
-      </tr>
-    </thead>
-      <tbody>
-      {% for unit in building.unit_set.all %}
-      <tr>
-        <th scope="row">#</th>
-        <td>{{ unit.num_bedrooms }}</td>
-        <td>{{ unit.square_footage }}</td>
-        <td>{{ unit.monthly_rent }}</td>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <p> No units to show for {{ building.name }}.</p>
-    {% endif %}
-    {% if user.username == building.admin %}
-    <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
-    {% endif %}
-  </div>
 </div>
 
 <hr>

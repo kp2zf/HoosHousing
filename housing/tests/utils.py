@@ -33,6 +33,8 @@ def create_unit(building):
 		monthly_rent = 850,
 		square_footage = 800,
 		num_bedrooms = 3,
+		num_bathrooms = 4,
+		rent_per_person = 284,
 		available = True,
 	)
 

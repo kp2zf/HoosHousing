@@ -29,9 +29,13 @@ def building_detail(request, pk=None, sorting= '-date'):
 	building = get_object_or_404(Building, pk=pk)
 	reviews = building.review_set.all()
 	reviews = reviews.order_by(sorting)
+	units = building.unit_set.all()
 	rating_sum = 0
 	rating_count = 0
 	upvoted_reviews = [] # the reviews that have already been upvoted by this user
+	unit_prices = []
+	min_price = 0
+	max_price = 0
 	for review in reviews:
 		rating_sum += review.rating
 		rating_count += 1
@@ -42,11 +46,20 @@ def building_detail(request, pk=None, sorting= '-date'):
 	if rating_count > 0:
 		building.rating = rating_sum / rating_count
 		building.rating = round(building.rating * 2.0) / 2.0
+	for unit in units:
+		unit_prices.append(unit.monthly_rent)
+	unit_prices.sort()
+	if len(unit_prices) > 0:
+		min_price = unit_prices[0]
+		max_price = unit_prices[-1]
+
 	return render(request, 'building_detail.html', {
 		'building':building,
 		'reviews':reviews,
 		'upvoted_reviews': upvoted_reviews,
-		'sorting':sorting
+		'sorting':sorting,
+		'min_price': min_price,
+		'max_price': max_price
 		})
 
 class AddBuildingView(FormView):
@@ -77,6 +90,8 @@ def search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
+	bathroom_query = request.GET.get('bathrooms')
+
 	if(neighborhood_query!=""):
 		neighborhood_query=Q(neighborhood__icontains=neighborhood_query)
 	else:
@@ -85,9 +100,13 @@ def search(request):
 		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
 	else:
 		bedroom_query=Q(name__icontains=search_query)
+	if(bathroom_query!=""):
+		bathroom_query=Q(unit__num_bathrooms__icontains=bathroom_query)
+	else:
+		bathroom_query=Q(name__icontains=search_query)
 
 	search_query=Q(name__icontains=search_query)
-	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query).distinct()
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&bathroom_query&search_query).distinct()
 	return render(request, 'search.html',{'buildings':buildings, 'isSearchResult': True})
 
 class SuccessView(TemplateView):
@@ -99,6 +118,7 @@ def advanced_search(request):
 	search_query = request.GET.get('search_box')
 	neighborhood_query = request.GET.get('neighborhood')
 	bedroom_query = request.GET.get('bedrooms')
+	bathroom_query = request.GET.get('bathrooms')
 
 	search_query=Q(name__icontains=search_query)
 
@@ -142,8 +162,12 @@ def advanced_search(request):
 		bedroom_query=Q(unit__num_bedrooms__icontains=bedroom_query)
 	else:
 		bedroom_query=search_query
+	if (bathroom_query != ""):
+		bathroom_query = Q(unit__num_bathrooms__icontains=bathroom_query)
+	else:
+		bathroom_query = search_query
 
-	buildings = Building.objects.filter(neighborhood_query&bedroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
+	buildings = Building.objects.filter(neighborhood_query&bedroom_query&bathroom_query&search_query&pet_query&air_condition_query&furnished_query&parking_query).distinct()
 	return render(request, 'advanced_search.html', {'buildings':buildings, 'isSearchResult': True})
 
 class AddUnitView(TemplateView):
@@ -231,8 +255,8 @@ def my_logout(request):
 class EditBuilding(UpdateView):
 	template_name = 'edit.html'
 	model = Building
-	fields = ['name','address','pet_allowed','is_furnished','air_conditioning','lease_length',
-			'parking','pool','gym','neighborhood','website_link','email','phone_number']
+	fields = ['name','address','neighborhood', 'lease_length','pet_allowed','is_furnished','air_conditioning',
+			'parking','pool','gym','website_link','email','phone_number']
 	success_url = reverse_lazy('housing:index')
 
 def favoriteBuilding(request, pk):

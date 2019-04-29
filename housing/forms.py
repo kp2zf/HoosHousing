@@ -22,13 +22,13 @@ class BuildingForm(forms.Form):
 	admin = forms.CharField(required=False,widget=forms.HiddenInput())
 	is_approved = forms.BooleanField(required=False,widget=forms.HiddenInput())
 	rating = forms.DecimalField(required=False,widget=forms.HiddenInput())
+	lease_length = forms.IntegerField(label='Lease length (months)', min_value=1)
 	pet_allowed = forms.BooleanField(required=False)
 	is_furnished = forms.BooleanField(required=False)
 	air_conditioning = forms.BooleanField(required=False)
-	lease_length = forms.IntegerField()
-	parking = forms.BooleanField(required=False)
-	pool = forms.BooleanField(required=False)
-	gym = forms.BooleanField(required=False)
+	parking = forms.BooleanField(label='Parking available', required=False)
+	pool = forms.BooleanField(label='Pool available', required=False)
+	gym = forms.BooleanField(label='Onsite gym', required=False)
 	website_link = forms.CharField(max_length=100,required=False)
 	email = forms.CharField(max_length=100,required=False)
 	phone_number = forms.CharField(max_length=100,required=False)
@@ -71,9 +71,10 @@ class BuildingImageForm(forms.Form):
 		return building
 
 class UnitForm(forms.Form):
-	monthly_rent = forms.IntegerField()
-	square_footage = forms.IntegerField()
-	num_bedrooms = forms.IntegerField()
+	monthly_rent = forms.IntegerField(min_value=1)
+	square_footage = forms.IntegerField(min_value=1)
+	num_bedrooms = forms.IntegerField(min_value=1)
+	num_bathrooms = forms.IntegerField(min_value=1)
 	available = forms.BooleanField(required=False)
 
 	def save(self, building):
@@ -81,9 +82,12 @@ class UnitForm(forms.Form):
 		_monthly_rent = self.cleaned_data['monthly_rent']
 		_square_footage = self.cleaned_data['square_footage']
 		_num_bedrooms = self.cleaned_data['num_bedrooms']
+		_num_bathrooms = self.cleaned_data['num_bathrooms']
 		_available = self.cleaned_data['available']
+		_rent_per_person = _monthly_rent / _num_bedrooms
 
-		unit = Unit(building = _building, monthly_rent=_monthly_rent, square_footage=_square_footage, num_bedrooms=_num_bedrooms, available=_available)
+		unit = Unit(building = _building, monthly_rent=_monthly_rent, square_footage=_square_footage,
+					num_bedrooms=_num_bedrooms, num_bathrooms= _num_bathrooms, available=_available, rent_per_person=_rent_per_person)
 		unit.save()
 		return unit
 
@@ -98,7 +102,7 @@ class ReviewForm(forms.Form):
 	rating = forms.TypedChoiceField(choices=rating_choices, coerce=int)
 	# name = forms.CharField(label='Your name:', max_length=100)
 	header = forms.CharField(label='Your header: What\'s most important to know about this building?', max_length=100)
-	review_text = forms.CharField(label='Enter your review text:', max_length=1000)
+	review_text = forms.CharField(label='Enter your review text:', max_length=1000, widget=forms.Textarea())
 
 	def save(self, building, name):
 		# name = self.cleaned_data['name']

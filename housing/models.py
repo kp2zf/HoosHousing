@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 
 from multiselectfield import MultiSelectField
 
@@ -28,10 +29,10 @@ class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
+    lease_length=models.IntegerField()
     pet_allowed= models.BooleanField()
     is_furnished=models.BooleanField()
     air_conditioning=models.BooleanField()
-    lease_length=models.IntegerField()
     parking=models.BooleanField(null=True)
     pool=models.BooleanField()
     gym=models.BooleanField()
@@ -59,10 +60,12 @@ class Unit(models.Model):
     monthly_rent = models.IntegerField()
     square_footage = models.IntegerField()
     num_bedrooms = models.IntegerField()
+    num_bathrooms = models.IntegerField()
     available = models.BooleanField()
+    rent_per_person = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return 'Rent: {} Bedrooms: {} '.format(self.monthly_rent, self.num_bedrooms)
+        return 'Rent: {} Bedrooms: {} Bathrooms: {}'.format(self.monthly_rent, self.num_bedrooms, self.num_bathrooms)
 
 # Each review contains the name of the reviewer, a numerical rating out of 5, the text of the review, and the building
 # for which it applies
