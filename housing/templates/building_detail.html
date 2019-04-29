@@ -34,9 +34,15 @@
     </div>
     {% if building.unit_set.all %}
       {% if building.unit_set.all|length > 1 %}
-      <div class="col-md-4" style="clear: both">
-        <h4>${{ min_price }} - ${{ max_price }} / month</h4>
-      </div>
+        {% if min_price == max_price %}
+        <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} / month</h4>
+        </div>
+        {% else %}
+        <div class="col-md-4" style="clear: both">
+          <h4>${{ min_price }} - ${{ max_price }} / month</h4>
+        </div>
+        {% endif %}
       {% else %}
       <div class="col-md-4" style="clear: both">
           <h4>${{ min_price }} / month</h4>
