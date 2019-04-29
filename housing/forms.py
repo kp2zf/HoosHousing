@@ -25,7 +25,7 @@ class BuildingForm(forms.Form):
 	pet_allowed = forms.BooleanField(required=False)
 	is_furnished = forms.BooleanField(required=False)
 	air_conditioning = forms.BooleanField(required=False)
-	lease_length = forms.IntegerField()
+	lease_length = forms.IntegerField(min_value=1)
 	parking = forms.BooleanField(required=False)
 	pool = forms.BooleanField(required=False)
 	gym = forms.BooleanField(required=False)
@@ -71,10 +71,10 @@ class BuildingImageForm(forms.Form):
 		return building
 
 class UnitForm(forms.Form):
-	monthly_rent = forms.IntegerField()
-	square_footage = forms.IntegerField()
-	num_bedrooms = forms.IntegerField()
-	num_bathrooms = forms.IntegerField()
+	monthly_rent = forms.IntegerField(min_value=1)
+	square_footage = forms.IntegerField(min_value=1)
+	num_bedrooms = forms.IntegerField(min_value=1)
+	num_bathrooms = forms.IntegerField(min_value=1)
 	available = forms.BooleanField(required=False)
 
 	def save(self, building):
