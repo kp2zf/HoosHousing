@@ -98,7 +98,7 @@ class ReviewForm(forms.Form):
 	rating = forms.TypedChoiceField(choices=rating_choices, coerce=int)
 	# name = forms.CharField(label='Your name:', max_length=100)
 	header = forms.CharField(label='Your header: What\'s most important to know about this building?', max_length=100)
-	review_text = forms.CharField(label='Enter your review text:', max_length=1000)
+	review_text = forms.CharField(label='Enter your review text:', max_length=1000, widget=forms.Textarea())
 
 	def save(self, building, name):
 		# name = self.cleaned_data['name']

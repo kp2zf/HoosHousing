@@ -126,42 +126,8 @@
   </div>
 
   <hr>
-  <div class="row">
-    <div class="col-8">
-      {% include 'map.html' with address=building.address %}
-    </div>
-    <div class="col-4">
-      <div class="text-center">
-        <div class="row"><h4> Contact Us </h4></div>
-        <div class="row">
-          {% if building.website_link %}
-            <i class="contact-icon fas fa-desktop"></i>
-            <a href="{{building.website_link}}">{{building.website_link}}</a>
-            <br>
-          {% endif %}
-        </div>
-        <div class="row">
-          {% if building.phone_number %}
-            <i class="contact-icon fas fa-phone"></i>
-            {{ building.phone_number }}
-            <br>
-          {% endif %}
-        </div>
-        <div class="row">
-          {% if building.email %}
-            <i class="contact-icon fas fa-envelope-square"></i>
-            {{ building.email }}
-            <br>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-</div>
-<hr>
+  <!-- Units-->
 
-<div>
-
-<!-- Units-->
 <div class="row">
   <div class="col">
     <h5>Units available:</h5>
@@ -193,6 +159,43 @@
     <a href="{% url 'housing:add_unit' building.id %}">add a unit</a>
     {% endif %}
   </div>
+</div>
+
+
+<hr>
+
+<div>
+
+  <div class="row">
+    <div class="col-8">
+      {% include 'map.html' with address=building.address %}
+    </div>
+    <div class="col-4">
+      <div class="text-center">
+        <div class="row"><h4> Contact Us </h4></div>
+        <div class="row">
+          {% if building.website_link %}
+            <i class="contact-icon fas fa-desktop"></i>
+            <a href="{{building.website_link}}">{{building.website_link}}</a>
+            <br>
+          {% endif %}
+        </div>
+        <div class="row">
+          {% if building.phone_number %}
+            <i class="contact-icon fas fa-phone"></i>
+            {{ building.phone_number }}
+            <br>
+          {% endif %}
+        </div>
+        <div class="row">
+          {% if building.email %}
+            <i class="contact-icon fas fa-envelope-square"></i>
+            {{ building.email }}
+            <br>
+          {% endif %}
+        </div>
+      </div>
+    </div>
 </div>
 
 <hr>
