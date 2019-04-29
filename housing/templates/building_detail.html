@@ -132,13 +132,16 @@
   <div class="col">
     <h5>Units available:</h5>
     {% if building.unit_set.all %}
+    <div style="height:200px;overflow:auto;">
     <table class="table">
       <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Number of Bedrooms</th>
+        <th scope="col">Number of Bathrooms</th>
         <th scope="col">Square Footage</th>
-        <th scope="col">Monthly Rent</th>
+        <th scope="col">Monthly Rent (Unit)</th>
+        <th scope="col">Monthly Rent (Bedroom)</th>
       </tr>
     </thead>
       <tbody>
@@ -146,12 +149,15 @@
       <tr>
         <th scope="row">#</th>
         <td>{{ unit.num_bedrooms }}</td>
+        <td>{{ unit.num_bathrooms }}</td>
         <td>{{ unit.square_footage }}</td>
-        <td>{{ unit.monthly_rent }}</td>
+        <td>${{ unit.monthly_rent }}</td>
+        <td>${{ unit.rent_per_person }}</td>
       </tr>
       {% endfor %}
       </tbody>
     </table>
+    </div>
     {% else %}
     <p> No units to show for {{ building.name }}.</p>
     {% endif %}

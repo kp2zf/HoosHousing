@@ -74,6 +74,7 @@ class UnitForm(forms.Form):
 	monthly_rent = forms.IntegerField()
 	square_footage = forms.IntegerField()
 	num_bedrooms = forms.IntegerField()
+	num_bathrooms = forms.IntegerField()
 	available = forms.BooleanField(required=False)
 
 	def save(self, building):
@@ -81,9 +82,12 @@ class UnitForm(forms.Form):
 		_monthly_rent = self.cleaned_data['monthly_rent']
 		_square_footage = self.cleaned_data['square_footage']
 		_num_bedrooms = self.cleaned_data['num_bedrooms']
+		_num_bathrooms = self.cleaned_data['num_bathrooms']
 		_available = self.cleaned_data['available']
+		_rent_per_person = _monthly_rent / _num_bedrooms
 
-		unit = Unit(building = _building, monthly_rent=_monthly_rent, square_footage=_square_footage, num_bedrooms=_num_bedrooms, available=_available)
+		unit = Unit(building = _building, monthly_rent=_monthly_rent, square_footage=_square_footage,
+					num_bedrooms=_num_bedrooms, num_bathrooms= _num_bathrooms, available=_available, rent_per_person=_rent_per_person)
 		unit.save()
 		return unit
 

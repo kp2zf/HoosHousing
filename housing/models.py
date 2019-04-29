@@ -59,10 +59,12 @@ class Unit(models.Model):
     monthly_rent = models.IntegerField()
     square_footage = models.IntegerField()
     num_bedrooms = models.IntegerField()
+    num_bathrooms = models.IntegerField()
     available = models.BooleanField()
+    rent_per_person = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return 'Rent: {} Bedrooms: {} '.format(self.monthly_rent, self.num_bedrooms)
+        return 'Rent: {} Bedrooms: {} Bathrooms: {}'.format(self.monthly_rent, self.num_bedrooms, self.num_bathrooms)
 
 # Each review contains the name of the reviewer, a numerical rating out of 5, the text of the review, and the building
 # for which it applies
