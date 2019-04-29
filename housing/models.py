@@ -54,6 +54,8 @@ class Building(models.Model):
     	return reverse('housing:building_detail', kwargs={'pk': self.id })
     def get_min_price(self,price):
         units=self.unit_set.all()
+        if(not units):
+            return False
         min_unit=min([unit.rent_per_person for unit in units])
         if int(price)<min_unit:
             return False
