@@ -25,6 +25,7 @@ MY_CHOICES=(('Jefferson Park Avenue','Jefferson Park Avenue'),
             ('West Main','West Main'))
 # A Building is normally an apartment or housing complex. Each
 # Building contains one or more Units.
+
 class Building(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
@@ -51,6 +52,20 @@ class Building(models.Model):
         return self.image.url if self.image else '/files/default-building.png'
     def get_absolute_url(self):
     	return reverse('housing:building_detail', kwargs={'pk': self.id })
+    def get_min_price(self,price):
+        units=self.unit_set.all()
+        min_unit=min([unit.rent_per_person for unit in units])
+        if int(price)<min_unit:
+            return False
+        else:
+            return True
+    def get_max_price(self,price):
+        units=self.unit_set.all()
+        max_unit=max([unit.rent_per_person for unit in units])
+        if int(price)<max_unit:
+            return True
+        else:
+            return False
 
 # Each Unit represents a subsection of a Building that is rentable.
 # The monthly rent of a Unit represents the total rent in US Dollars
