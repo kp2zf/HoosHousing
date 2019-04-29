@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3> Housing List </h3>
+<h3 class="float-left"> Housing List </h3>
+<a class="btn btn-primary float-right" role="button" href="{% url 'housing:add_building'%}">
+	<i class="fas fa-plus mr-2"></i>Add a building
+</a>
+<h3 style="visibility:hidden">header</h3><!-- invisible header for positioning -->
 
-<div class="row building-row">
+<div class="row building-row mt-4">
 	{% if buildings %}
 		{% for building in buildings %}
 		{% if building.approved %}
@@ -15,5 +19,4 @@
 		No buildings found. Want to <a href="{% url 'housing:add_building' %}">add one</a>?
 	{% endif %}
 </div>
-<a href="{% url 'housing:add_building'%}">add a building</a>
 {% endblock %}
